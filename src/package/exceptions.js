@@ -1,0 +1,9 @@
+export const NoWeb3Provider = new Error('No Web3 provider found.');
+export const NoAccountsAvailable = new Error('No accounts available.');
+export const CantFetchNetwork = new Error('Failed to fetch network.');
+export const WrongNetwork = new Error('Incorrect network.');
+export const MetamaskError = new Error('Metamask has thrown an error.');
+export const UserAlreadyPaid = new Error('You have already paid.');
+export const UserHasNotPaid = new Error('You have not yet paid.');
+export const TransactionFailure = new Error('The transaction failed.');
+export const ServerError = new Error('The server has thrown an error.');
