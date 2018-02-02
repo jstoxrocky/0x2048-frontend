@@ -2,63 +2,54 @@ import { handleMetaMaskErrors } from './decorators';
 import * as exceptions from './exceptions';
 import * as baseContract from './base-contract';
 
-export const { getAddress } = baseContract;
-export const handledGetRound = (...args) => {
-  const safeGetRound = handleMetaMaskErrors(baseContract.unhandledGetRound);
-  return safeGetRound(...args);
-};
-export const handledGetJackpot = (...args) => {
-  const safeGetJackpot = handleMetaMaskErrors(baseContract.unhandledGetJackpot);
-  return safeGetJackpot(...args);
-};
-export const handledGetPrice = (...args) => {
-  const safeGetPrice = handleMetaMaskErrors(baseContract.unhandledGetPrice);
-  return safeGetPrice(...args);
-};
-export const handledGetParticipation = (...args) => {
-  const safeGetParticipation = handleMetaMaskErrors(baseContract.unhandledGetParticipation);
-  return safeGetParticipation(...args);
-};
 export const handledPay = (...args) => {
-  const safePay = handleMetaMaskErrors(baseContract.unhandledPay);
+  const safePay = handleMetaMaskErrors(baseContract.pay);
   return safePay(...args);
 };
 export const handledUploadScore = (...args) => {
-  const safeUploadScore = handleMetaMaskErrors(baseContract.unhandledUploadScore);
+  const safeUploadScore = handleMetaMaskErrors(baseContract.uploadScore);
   return safeUploadScore(...args);
 };
 export const handledAdjustPrice = (...args) => {
-  const safeAdjustPrice = handleMetaMaskErrors(baseContract.unhandledAdjustPrice);
+  const safeAdjustPrice = handleMetaMaskErrors(baseContract.adjustPrice);
   return safeAdjustPrice(...args);
 };
 
+export const {
+  getAddress,
+  getRound,
+  getJackpot,
+  getPrice,
+  getParticipation,
+} = baseContract;
+
 export const getArcadeState = async (user) => {
-  const jackpot = await handledGetJackpot();
-  const round = await handledGetRound();
-  const isParticipant = await handledGetParticipation(user);
-  const price = await handledGetPrice();
+  const jackpot = await getJackpot();
+  const round = await getRound();
+  const isParticipant = await getParticipation(user);
+  const price = await getPrice();
   return {
     jackpot, round, isParticipant, price,
   };
 };
 
 export const pay = async (user) => {
-  let isParticipant = await handledGetParticipation(user);
+  let isParticipant = await getParticipation(user);
   if (isParticipant) {
     throw exceptions.UserAlreadyPaid;
   }
-  const value = await handledGetPrice();
+  const value = await getPrice();
   const receipt = await handledPay(user, value);
   if (!receipt.status) {
     throw exceptions.TransactionFailure;
   }
-  const jackpot = await handledGetJackpot();
-  isParticipant = await handledGetParticipation(user);
+  const jackpot = await getJackpot();
+  isParticipant = await getParticipation(user);
   return { jackpot, isParticipant };
 };
 
 export const uploadScore = async (signature, user, userPreImage, scorePreImage) => {
-  let isParticipant = await handledGetParticipation(userPreImage);
+  let isParticipant = await getParticipation(userPreImage);
   if (!isParticipant) {
     throw exceptions.UserHasNotPaid;
   }
@@ -70,9 +61,9 @@ export const uploadScore = async (signature, user, userPreImage, scorePreImage) 
   if (!receipt.status) {
     throw exceptions.TransactionFailure;
   }
-  const jackpot = await handledGetJackpot();
-  const round = await handledGetRound();
-  isParticipant = await handledGetParticipation(user);
+  const jackpot = await getJackpot();
+  const round = await getRound();
+  isParticipant = await getParticipation(user);
   return { jackpot, round, isParticipant };
 };
 
@@ -84,6 +75,6 @@ export const adjustPrice = async (signature, user, pricePreImage) => {
   if (!receipt.status) {
     throw exceptions.TransactionFailure;
   }
-  const price = await handledGetPrice();
+  const price = await getPrice();
   return { price };
 };
