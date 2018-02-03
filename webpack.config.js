@@ -9,12 +9,10 @@ module.exports = {
 		loaders: [{
 			test: [/\.jsx?$/],
 			exclude: /(node_modules)/,
-			// loader: 'babel-loader',
-			loader: 'babel-loader?presets[]=react,presets[]=es2015',
+			loader: 'babel-loader',
 			query: {
-				// presets: ['es2015', 'react'],
-				// plugins: ['transform-decorators-legacy'],
-				plugins: ['babel-plugin-transform-decorators-legacy'].map(require.resolve),
+				presets: ['es2015', 'react'],
+				plugins: ['transform-decorators-legacy'],
 			}
 		}]
 	},
