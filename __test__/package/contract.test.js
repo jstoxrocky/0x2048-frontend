@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import Web3 from 'web3';
+import ganache from 'ganache-core';
 import * as exceptions from '../../src/package/exceptions';
 import * as web3Provisioned from '../../src/package/web3-provisioned';
 import * as deployedContract from '../../src/package/deployed-contract';
@@ -13,10 +14,11 @@ jest.setTimeout(10000);
 describe('contract', () => {
   beforeAll(async () => {
     web3Provisioned.web3 = new Web3();
-    web3Provisioned.web3.setProvider(test.provider);
+    const provider = ganache.provider(test.options);
+    web3Provisioned.web3.setProvider(provider);
     const undeployedContract = new web3Provisioned.web3.eth.Contract(abi, { data });
     const contract = await undeployedContract.deploy().send(test.deploymentOptions);
-    contract.setProvider(test.provider);
+    contract.setProvider(provider);
     deployedContract.contract = contract;
   });
 
