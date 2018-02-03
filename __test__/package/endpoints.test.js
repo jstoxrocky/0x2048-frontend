@@ -11,7 +11,7 @@ import * as Contract from '../../src/package/contract';
 describe('endpoints', () => {
   beforeAll(async () => {
     web3Provisioned.web3 = new Web3();
-    web3Provisioned.web3.setProvider(test.provider);
+    web3Provisioned.web3.setProvider(ganache.provider(test.options));
     web3Provisioned.network = test.network;
   });
 
@@ -77,7 +77,7 @@ describe('endpoints', () => {
     await expect(endpoints.pay()).rejects.toEqual(exceptions.NoWeb3Provider);
     await expect(endpoints.adjustPrice()).rejects.toEqual(exceptions.NoWeb3Provider);
     web3Provisioned.web3 = new Web3();
-    web3Provisioned.web3.setProvider(test.provider);
+    web3Provisioned.web3.setProvider(ganache.provider(test.options));
   });
 
   it.skip('should throw NoAccountsAvailable with no accounts available', async () => {
