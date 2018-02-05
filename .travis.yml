@@ -1,10 +1,22 @@
-language: node_js
-node_js:
-    - "node"
+language: python
+python:
+  - "3.6"
 install:
-    - npm install
+  - nvm install node
+  - npm install
+env:
+  - REDIS_HOST=localhost REDIS_PORT=6379
+services:
+  - redis-server
+before_script:
+  - git clone https://github.com/jstoxrocky/0x2048-webserver.git webserver
+  - cd webserver
+  - pip install -r requirements.txt
+  - pip install gunicorn
+  - python setup.py install
+  - gunicorn --bind 0.0.0.0:8000 webserver/application --daemon
 script:
-    - npm run test
-    - npm run lint
+  - npm run test
+  - npm run lint
 notifications:
-    email: false
+  email: false

@@ -25,6 +25,3 @@ Clone the repository
 ```bash
 $ npm run test
 ```
-
-
-
