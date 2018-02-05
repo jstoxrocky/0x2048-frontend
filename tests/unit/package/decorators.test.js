@@ -1,8 +1,8 @@
-import * as exceptions from '../../src/package/exceptions';
+import * as exceptions from '../../../src/package/exceptions';
 import {
   handleMetaMaskErrors,
   handleServerErrors,
-} from '../../src/package/decorators';
+} from '../../../src/package/decorators';
 
 describe('handleMetaMaskErrors', () => {
   it('should throw MetamaskError', async () => {

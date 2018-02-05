@@ -1,11 +1,14 @@
 import ganache from 'ganache-core';
 import Web3 from 'web3';
-import * as exceptions from '../../src/package/exceptions';
-import * as web3Provisioned from '../../src/package/web3-provisioned';
+import * as exceptions from '../../../src/package/exceptions';
+import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as test from './test-setup/test-provider';
-import { web3Provider, accountsAvailable, correctNetwork, connectedToEVM } from '../../src/package/requirements';
-
-// require('events').EventEmitter.defaultMaxListeners = Infinity;
+import {
+  web3Provider,
+  accountsAvailable,
+  correctNetwork,
+  connectedToEVM,
+} from '../../../src/package/requirements';
 
 describe('require', () => {
   beforeAll(async () => {

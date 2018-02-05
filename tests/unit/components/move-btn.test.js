@@ -1,8 +1,8 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { PureMoveBtn } from '../../src/components/move/move-btn';
-import * as move from '../../src/actions/move';
+import { PureMoveBtn } from '../../../src/components/move/move-btn';
+import * as move from '../../../src/actions/move';
 
 Enzyme.configure({ adapter: new Adapter() });
 

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
-import * as exceptions from '../../src/package/exceptions';
-import * as baseApi from '../../src/package/base-api';
-import { move, price } from '../../src/package/api';
+import * as exceptions from '../../../src/package/exceptions';
+import * as baseApi from '../../../src/package/base-api';
+import { move, price } from '../../../src/package/api';
 
 describe('handle move', () => {
   beforeEach(() => {

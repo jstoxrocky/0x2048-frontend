@@ -1,9 +1,9 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { PureUploadScoreBtn } from '../../src/components/upload-score/upload-score-btn';
-import * as uploadScore from '../../src/actions/upload-score';
-import { initialState } from '../../src/reducers/game-state-reducer';
+import { PureUploadScoreBtn } from '../../../src/components/upload-score/upload-score-btn';
+import * as uploadScore from '../../../src/actions/upload-score';
+import { initialState } from '../../../src/reducers/game-state-reducer';
 
 Enzyme.configure({ adapter: new Adapter() });
 
