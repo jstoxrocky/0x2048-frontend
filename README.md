@@ -32,8 +32,6 @@ And navigate the `http://localhost:8080/`
 
 ## Test
 
-Clone the repository
-
 ```bash
 $ npm run test
 ```
