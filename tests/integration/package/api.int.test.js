@@ -1,9 +1,9 @@
-import { user } from '../unit/package/test-setup/test-provider';
-import * as api from '../../src/package/api';
+import { user } from '../../unit/package/test-setup/test-provider';
+import * as api from '../../../src/package/api';
 
 it('/move', async () => {
   const direction = 1;
-  const { data } = await api.move(user.address, direction);
+  const data = await api.move(user.address, direction);
 
   expect(data).toHaveProperty('score');
   expect(data).toHaveProperty('board');
@@ -41,7 +41,7 @@ it('/move', async () => {
 });
 
 it('/price', async () => {
-  const { data } = await api.price(user.address);
+  const data = await api.price(user.address);
   const { price, signature } = data;
 
   expect(data).toHaveProperty('price');

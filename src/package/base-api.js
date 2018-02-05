@@ -4,6 +4,8 @@ const baseURL = 'http://127.0.0.1:5000';
 const withCredentials = true;
 const api = axios.create({ withCredentials, baseURL });
 
+api.interceptors.response.use(response => response.data);
+
 export const unhandledMove = (user, direction) => (
   api.post('/move', { user, direction })
 );
