@@ -2,9 +2,9 @@ import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import PropTypes from 'prop-types';
-import { PureMove } from '../../src/components/move/move';
-import { initialState } from '../../src/reducers/game-state-reducer';
-import * as MoveBtn from '../../src/components/move/move-btn';
+import { PureMove } from '../../../src/components/move/move';
+import { initialState } from '../../../src/reducers/game-state-reducer';
+import * as MoveBtn from '../../../src/components/move/move-btn';
 
 Enzyme.configure({ adapter: new Adapter() });
 

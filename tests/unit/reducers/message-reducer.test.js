@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
-import reducer from '../../src/reducers/message-reducer';
-import * as types from '../../src/actions/action-types';
-import * as messages from '../../src/package/messages';
+import reducer from '../../../src/reducers/message-reducer';
+import * as types from '../../../src/actions/action-types';
+import * as messages from '../../../src/package/messages';
 
 const initialState = {
   value: '',

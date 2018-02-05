@@ -1,9 +1,9 @@
 import configureMockStore from 'redux-mock-store';
 import sinon from 'sinon';
 import promise from 'redux-promise-middleware';
-import * as types from '../../src/actions/action-types';
-import uploadScore from '../../src/actions/upload-score';
-import * as endpoints from '../../src/package/endpoints';
+import * as types from '../../../src/actions/action-types';
+import uploadScore from '../../../src/actions/upload-score';
+import * as endpoints from '../../../src/package/endpoints';
 
 const middlewares = [promise()];
 const mockStore = configureMockStore(middlewares);

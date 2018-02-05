@@ -1,8 +1,8 @@
 import { createStore } from 'redux';
-import rootReducer from '../../src/reducers/root-reducer';
-import messageReducer from '../../src/reducers/message-reducer';
-import gameStateReducer from '../../src/reducers/game-state-reducer';
-import arcadeStateReducer from '../../src/reducers/arcade-state-reducer';
+import rootReducer from '../../../src/reducers/root-reducer';
+import messageReducer from '../../../src/reducers/message-reducer';
+import gameStateReducer from '../../../src/reducers/game-state-reducer';
+import arcadeStateReducer from '../../../src/reducers/arcade-state-reducer';
 
 const store = createStore(rootReducer);
 

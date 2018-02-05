@@ -14,7 +14,7 @@ before_script:
   - pip install -r requirements.txt
   - pip install gunicorn
   - python setup.py install
-  - gunicorn --bind 0.0.0.0:8000 webserver/application --daemon
+  - gunicorn --bind 0.0.0.0:5000 webserver/application --daemon
 script:
   - npm run test
   - npm run lint

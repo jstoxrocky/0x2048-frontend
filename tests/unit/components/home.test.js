@@ -1,9 +1,9 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { PureHome } from '../../src/components/home/home';
-import { initialState } from '../../src/reducers/arcade-state-reducer';
-import * as arcadeState from '../../src/actions/arcade-state';
+import { PureHome } from '../../../src/components/home/home';
+import { initialState } from '../../../src/reducers/arcade-state-reducer';
+import * as arcadeState from '../../../src/actions/arcade-state';
 
 Enzyme.configure({ adapter: new Adapter() });
 

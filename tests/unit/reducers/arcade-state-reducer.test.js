@@ -1,5 +1,5 @@
-import reducer from '../../src/reducers/arcade-state-reducer';
-import * as types from '../../src/actions/action-types';
+import reducer from '../../../src/reducers/arcade-state-reducer';
+import * as types from '../../../src/actions/action-types';
 
 const initialState = {
   jackpot: 0,

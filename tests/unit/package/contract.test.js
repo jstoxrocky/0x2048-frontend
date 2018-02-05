@@ -1,11 +1,11 @@
 import sinon from 'sinon';
 import Web3 from 'web3';
 import ganache from 'ganache-core';
-import * as exceptions from '../../src/package/exceptions';
-import * as web3Provisioned from '../../src/package/web3-provisioned';
-import * as deployedContract from '../../src/package/deployed-contract';
-import * as Contract from '../../src/package/contract';
-import * as baseContract from '../../src/package/base-contract';
+import * as exceptions from '../../../src/package/exceptions';
+import * as web3Provisioned from '../../../src/package/web3-provisioned';
+import * as deployedContract from '../../../src/package/deployed-contract';
+import * as Contract from '../../../src/package/contract';
+import * as baseContract from '../../../src/package/base-contract';
 import * as test from './test-setup/test-provider';
 import { abi, data } from './test-setup/abi';
 
