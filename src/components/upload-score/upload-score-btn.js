@@ -31,7 +31,7 @@ UploadScoreBtn.propTypes = {
   signature: PropTypes.shape({
     message: PropTypes.string.isRequired,
     messageHash: PropTypes.string.isRequired,
-    v: PropTypes.string.isRequired,
+    v: PropTypes.number.isRequired,
     r: PropTypes.number.isRequired,
     s: PropTypes.number.isRequired,
     signature: PropTypes.string.isRequired,
