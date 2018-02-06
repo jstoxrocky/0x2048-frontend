@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MoveBtn from './move-btn';
+import Board from './board';
 
 const Move = ({ score }) => (
   <div className="container">
     <h5>Play</h5>
-    <h5>Score: {score}</h5>
+    <div className="score">
+      <h5>Score: {score}</h5>
+    </div>
+    <Board />
     <div className="row">
       <div className="col-md-3">
         <MoveBtn title="Up" direction={1} />

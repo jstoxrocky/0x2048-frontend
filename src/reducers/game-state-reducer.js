@@ -3,7 +3,7 @@ import * as types from '../actions/action-types';
 
 export const initialState = {
   score: 0,
-  board: [],
+  board: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
   gameover: true,
   signature: {
     message: '', messageHash: '', v: '', r: 0, s: 0, signature: '',
