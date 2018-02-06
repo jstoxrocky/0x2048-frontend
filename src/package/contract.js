@@ -48,15 +48,14 @@ export const pay = async (user) => {
   return { jackpot, isParticipant };
 };
 
-export const uploadScore = async (signature, user, userPreImage, scorePreImage) => {
-  let isParticipant = await getParticipation(userPreImage);
+export const uploadScore = async (signature, user, scorePreImage) => {
+  let isParticipant = await getParticipation(user);
   if (!isParticipant) {
     throw exceptions.UserHasNotPaid;
   }
   const receipt = await handledUploadScore(
-    user,
     signature.messageHash, signature.v, signature.r, signature.s,
-    userPreImage, scorePreImage,
+    user, scorePreImage,
   );
   if (!receipt.status) {
     throw exceptions.TransactionFailure;

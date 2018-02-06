@@ -82,7 +82,7 @@ describe('base-contract', () => {
         const r = '0x2aaf6d6b8e6084b4b8220b81501da9565661d84dfc85474827d2aeaf47af1428';
         const s = '0x29669f85961770eb3d9ad36e7808ebf3cd616ad717bfb642f805f053a820f3d2';
         const receipt = await baseContract
-          .uploadScore(test.user.address, messageHash, v, r, s, test.user.address, score);
+          .uploadScore(messageHash, v, r, s, test.user.address, score);
         expect(receipt.status).toBe(expected);
       });
     });
