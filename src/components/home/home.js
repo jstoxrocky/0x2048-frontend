@@ -14,12 +14,22 @@ class Home extends React.Component {
       jackpot, price, round, isParticipant,
     } = this.props;
     return (
-      <div className="home container">
-        <h1>0x2048</h1>
-        <h5>Jackpot: {jackpot} ETH</h5>
-        <h5>Price: {price} ETH</h5>
-        <h5>Round #: {round}</h5>
-        <h5>Is Participant: {isParticipant.toString()}</h5>
+      <div className="container">
+        <div className="title">
+          <h1>0x2048</h1>
+        </div>
+        <div className="jackpot">
+          <h5>Jackpot: {jackpot} ETH</h5>
+        </div>
+        <div className="price">
+          <h5>Price: {price} ETH</h5>
+        </div>
+        <div className="round">
+          <h5>Round #: {round}</h5>
+        </div>
+        <div className="isParticipant">
+          <h5>Is Participant: {isParticipant.toString()}</h5>
+        </div>
       </div>
     );
   }

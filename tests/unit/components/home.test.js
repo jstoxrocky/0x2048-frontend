@@ -7,24 +7,36 @@ import * as arcadeState from '../../../src/actions/arcade-state';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const setup = () => {
-  const dispatch = jest.fn();
-  const props = { ...initialState, dispatch };
-  const enzymeWrapper = mount(<PureHome {...props} />);
-  return { enzymeWrapper };
-};
+let Home;
 
-describe('pure home', () => {
-  it('props should be intial arcade state', () => {
-    const { enzymeWrapper } = setup();
-    const homeProps = enzymeWrapper.props();
-    expect(homeProps.jackpot).toBe(initialState.jackpot);
-    expect(homeProps.price).toBe(initialState.price);
-    expect(homeProps.round).toBe(initialState.round);
-    expect(homeProps.isParticipant).toBe(initialState.isParticipant);
+describe('home', () => {
+  beforeAll(() => {
+    const dispatch = jest.fn();
+    const props = { ...initialState, dispatch };
+    Home = mount(<PureHome {...props} />);
   });
 
-  it('should call dispatch and getArcadeState on componentDidMount', () => {
+  it('should contain title', () => {
+    expect(Home.find('.title').length).toBe(1);
+  });
+
+  it('should contain jackpot', () => {
+    expect(Home.find('.jackpot').length).toBe(1);
+  });
+
+  it('should contain price', () => {
+    expect(Home.find('.price').length).toBe(1);
+  });
+
+  it('should contain round', () => {
+    expect(Home.find('.round').length).toBe(1);
+  });
+
+  it('should contain isParticipant', () => {
+    expect(Home.find('.isParticipant').length).toBe(1);
+  });
+
+  it('should call dispatch and getArcadeState and on componentDidMount', () => {
     arcadeState.default = jest.fn();
     const dispatch = jest.fn();
     const props = { ...initialState, dispatch };
