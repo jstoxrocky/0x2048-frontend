@@ -15,6 +15,10 @@ export const getArcadeState = async () => {
   return Contract.getArcadeState(user);
 };
 
+export const gameState = async () => (
+  api.gameState()
+);
+
 export const pay = async () => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();

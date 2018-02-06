@@ -8,7 +8,7 @@ const initialState = {
   gameover: true,
 };
 
-const mockScoreState = {
+const mockGameState = {
   score: 1,
   signature: '0x1234',
   board: [],
@@ -22,8 +22,15 @@ describe('score reducer', () => {
   it('should handle MOVE_FULFILLED', () => {
     const fulfilledAction = {
       type: types.MOVE_FULFILLED,
-      payload: mockScoreState,
+      payload: mockGameState,
     };
-    expect(reducer({}, fulfilledAction)).toEqual(mockScoreState);
+    expect(reducer({}, fulfilledAction)).toEqual(mockGameState);
+  });
+  it('should handle GET_GAME_STATE_FULFILLED', () => {
+    const fulfilledAction = {
+      type: types.GET_GAME_STATE_FULFILLED,
+      payload: mockGameState,
+    };
+    expect(reducer({}, fulfilledAction)).toEqual(mockGameState);
   });
 });
