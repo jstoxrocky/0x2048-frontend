@@ -13,9 +13,9 @@ export const pay = (user, value) => (
     })
 );
 
-export const uploadScore = (user, h, v, r, s, userPreImage, scorePreImage) => (
+export const uploadScore = (h, v, r, s, user, scorePreImage) => (
   contract.methods
-    .uploadScore(h, v, r, s, userPreImage, scorePreImage)
+    .uploadScore(h, v, r, s, user, scorePreImage)
     .send({ gas, gasPrice, from: user })
 );
 

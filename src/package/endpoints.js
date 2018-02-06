@@ -25,10 +25,10 @@ export const pay = async () => {
   return Contract.pay(user);
 };
 
-export const uploadScore = async (signature, userPreImage, scorePreImage) => {
+export const uploadScore = async (signature, score) => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
-  return Contract.uploadScore(signature, user, userPreImage, scorePreImage);
+  return Contract.uploadScore(signature, user, score);
 };
 
 export const adjustPrice = async () => {
