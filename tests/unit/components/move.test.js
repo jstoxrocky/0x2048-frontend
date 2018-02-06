@@ -6,33 +6,44 @@ import { PureMove } from '../../../src/components/move/move';
 import { initialState } from '../../../src/reducers/game-state-reducer';
 import * as MoveBtn from '../../../src/components/move/move-btn';
 import * as Board from '../../../src/components/move/board';
+import * as gameState from '../../../src/actions/game-state';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const setup = () => {
-  // Get the pure classes
-  MoveBtn.default = MoveBtn.PureMoveBtn;
-  Board.default = Board.PureBoard;
-  // Mark as not required for this test, otherwise it throws
-  MoveBtn.default.propTypes.dispatch = PropTypes.func;
-  Board.default.propTypes.board = PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number));
-  const wrapper = shallow(<PureMove {...initialState} />);
-  return wrapper;
-};
+let Move;
 
-describe('pure move', () => {
+describe('move', () => {
+  beforeAll(() => {
+    // Get the pure classes
+    MoveBtn.default = MoveBtn.PureMoveBtn;
+    Board.default = Board.PureBoard;
+    // Mark as not required for this test, otherwise it throws
+    MoveBtn.default.propTypes.dispatch = PropTypes.func;
+    Board.default.propTypes.board = PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number));
+
+    const dispatch = jest.fn();
+    const props = { ...initialState, dispatch };
+    Move = shallow(<PureMove {...props} />);
+  });
+
   it('should have 4 MoveBtn', () => {
-    const wrapper = setup();
-    expect(wrapper.find('MoveBtn').length).toBe(4);
+    expect(Move.find('MoveBtn').length).toBe(4);
   });
 
   it('should have 1 Board', () => {
-    const wrapper = setup();
-    expect(wrapper.find('Board').length).toBe(1);
+    expect(Move.find('Board').length).toBe(1);
   });
 
   it('should have score', () => {
-    const wrapper = setup();
-    expect(wrapper.find('.score').find('h5').length).toBe(1);
+    expect(Move.find('.score').find('h5').length).toBe(1);
+  });
+
+  it('should call dispatch and gameState and on componentDidMount', () => {
+    gameState.default = jest.fn();
+    const dispatch = jest.fn();
+    const props = { ...initialState, dispatch };
+    shallow(<PureMove {...props} />);
+    expect(props.dispatch.mock.calls.length).toBe(1);
+    expect(gameState.default.mock.calls.length).toBe(1);
   });
 });

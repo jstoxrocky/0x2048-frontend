@@ -16,6 +16,7 @@ describe('endpoints', () => {
   });
 
   beforeEach(() => {
+    sinon.stub(api, 'gameState');
     sinon.stub(api, 'move');
     sinon.stub(api, 'price');
     sinon.stub(Contract, 'getArcadeState');
@@ -25,12 +26,20 @@ describe('endpoints', () => {
   });
 
   afterEach(() => {
+    api.gameState.restore();
     api.move.restore();
     api.price.restore();
     Contract.getArcadeState.restore();
     Contract.pay.restore();
     Contract.uploadScore.restore();
     Contract.adjustPrice.restore();
+  });
+
+  it('gameState should succeed', async () => {
+    const expected = 1337;
+    api.gameState.returns(Promise.resolve(expected));
+    const output = await endpoints.gameState();
+    expect(output).toEqual(expected);
   });
 
   it('move should succeed', async () => {

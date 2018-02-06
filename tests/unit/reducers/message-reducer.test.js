@@ -38,6 +38,13 @@ describe('message reducer pending actions', () => {
     expect(reducer({}, pendingAction)).toEqual(messages.Loading);
   });
 
+  it('should handle GET_GAME_STATE_PENDING', () => {
+    const pendingAction = {
+      type: types.GET_GAME_STATE_PENDING,
+    };
+    expect(reducer({}, pendingAction)).toEqual(messages.Loading);
+  });
+
   it('should handle MOVE_PENDING', () => {
     const pendingAction = {
       type: types.MOVE_PENDING,
@@ -76,6 +83,13 @@ describe('message reducer fulfilled actions', () => {
       payload: messages.TransactionSuccess,
     };
     expect(reducer({}, fulfilledAction)).toEqual(messages.UploadScoreSuccess);
+  });
+
+  it('should handle GET_GAME_STATE_FULFILLED', () => {
+    const fulfilledAction = {
+      type: types.GET_GAME_STATE_FULFILLED,
+    };
+    expect(reducer({}, fulfilledAction)).toEqual(initialState);
   });
 
   it('should handle MOVE_FULFILLED', () => {
@@ -122,6 +136,16 @@ describe('message reducer rejected actions', () => {
     };
     const expectedOutput = merge({}, messages.UploadRejected);
     expectedOutput.value = [messages.UploadRejected.value, payloadError.message].join(' ');
+    expect(reducer({}, rejectedAction)).toEqual(expectedOutput);
+  });
+
+  it('should handle GET_GAME_STATE_REJECTED', () => {
+    const rejectedAction = {
+      type: types.GET_GAME_STATE_REJECTED,
+      payload: payloadError,
+    };
+    const expectedOutput = merge({}, messages.GetGameStateRejected);
+    expectedOutput.value = [messages.GetGameStateRejected.value, payloadError.message].join(' ');
     expect(reducer({}, rejectedAction)).toEqual(expectedOutput);
   });
 
