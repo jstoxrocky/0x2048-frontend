@@ -6,7 +6,7 @@ export const initialState = {
   board: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
   gameover: true,
   signature: {
-    message: '', messageHash: '', v: 0, r: 0, s: 0, signature: '',
+    message: '0x0', messageHash: '0x0', v: 0, r: '0x0', s: '0x0', signature: '0x0',
   },
 };
 

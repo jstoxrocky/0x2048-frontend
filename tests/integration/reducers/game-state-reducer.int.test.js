@@ -43,9 +43,8 @@ describe('game-state reducer', () => {
     expect(typeof message).toBe('string');
     expect(typeof messageHash).toBe('string');
     expect(typeof v).toBe('number');
-    expect(typeof r).toBe('number');
-    expect(typeof s).toBe('number');
+    expect(typeof r).toBe('string');
+    expect(typeof s).toBe('string');
     expect(typeof subSignature).toBe('string');
   });
 });
-
