@@ -39,8 +39,8 @@ export const pay = async (user) => {
     throw exceptions.UserAlreadyPaid;
   }
   const value = await getPrice();
-  const receipt = await handledPay(user, value);
-  if (!receipt.status) {
+  const { status } = await handledPay(user, value);
+  if (status !== '0x01') {
     throw exceptions.TransactionFailure;
   }
   const jackpot = await getJackpot();
@@ -53,11 +53,11 @@ export const uploadScore = async (signature, user, scorePreImage) => {
   if (!isParticipant) {
     throw exceptions.UserHasNotPaid;
   }
-  const receipt = await handledUploadScore(
+  const { status } = await handledUploadScore(
     signature.messageHash, signature.v, signature.r, signature.s,
     user, scorePreImage,
   );
-  if (!receipt.status) {
+  if (status !== '0x01') {
     throw exceptions.TransactionFailure;
   }
   const jackpot = await getJackpot();
@@ -67,11 +67,11 @@ export const uploadScore = async (signature, user, scorePreImage) => {
 };
 
 export const adjustPrice = async (signature, user, pricePreImage) => {
-  const receipt = await handledAdjustPrice(
+  const { status } = await handledAdjustPrice(
     signature.messageHash, signature.v, signature.r, signature.s,
     user, pricePreImage,
   );
-  if (!receipt.status) {
+  if (status !== '0x01') {
     throw exceptions.TransactionFailure;
   }
   const price = await getPrice();

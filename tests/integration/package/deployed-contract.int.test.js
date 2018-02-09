@@ -24,4 +24,19 @@ describe('deployed contract', () => {
     const owner = web3Provisioned.web3.eth.accounts.privateKeyToAccount(ownerPrivateKey);
     expect(contractOwner).toBe(owner.address);
   });
+
+  it('round should be > 0', async () => {
+    const round = await deployedContract.contract.methods.round().call().then(parseInt);
+    expect(round).toBeGreaterThan(0);
+  });
+
+  it('price should be > 0', async () => {
+    const price = await deployedContract.contract.methods.price().call().then(parseInt);
+    expect(price).toBeGreaterThan(0);
+  });
+
+  it('percentFee should be 10', async () => {
+    const percentFee = await deployedContract.contract.methods.percentFee().call().then(parseInt);
+    expect(percentFee).toBe(10);
+  });
 });
