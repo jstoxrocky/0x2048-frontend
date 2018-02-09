@@ -47,8 +47,8 @@ describe('base-contract', () => {
     it('initial pay should be affect jackpot and participation', async () => {
       const expected = '0x01';
       const price = await baseContract.getPrice();
-      const receipt = await baseContract.pay(test.user.address, price);
-      expect(receipt.status).toBe(expected);
+      const { status } = await baseContract.pay(test.user.address, price);
+      expect(status).toBe(expected);
     });
 
     it('adjust price should succeed', async () => {
@@ -58,9 +58,9 @@ describe('base-contract', () => {
       const v = '0x1c';
       const r = '0x987c73122c6ce34ac55396f51a77f4fd3ed8ad98bb42320efaf4fc55176f36fb';
       const s = '0x0ffe8cfaac7a0e9588cd687232cc54f70b396c3854d63fea76ee2a0132b96b95';
-      const receipt = await baseContract
+      const { status } = await baseContract
         .adjustPrice(messageHash, v, r, s, test.user.address, price);
-      expect(receipt.status).toBe(expected);
+      expect(status).toBe(expected);
     });
 
     describe('requires user to be participant', () => {
@@ -69,8 +69,8 @@ describe('base-contract', () => {
         if (!isParticipant) {
           const expected = '0x01';
           const price = await baseContract.getPrice();
-          const receipt = await baseContract.pay(test.user.address, price);
-          expect(receipt.status).toBe(expected);
+          const { status } = await baseContract.pay(test.user.address, price);
+          expect(status).toBe(expected);
         }
       });
 
@@ -81,9 +81,9 @@ describe('base-contract', () => {
         const v = '0x1c';
         const r = '0x2aaf6d6b8e6084b4b8220b81501da9565661d84dfc85474827d2aeaf47af1428';
         const s = '0x29669f85961770eb3d9ad36e7808ebf3cd616ad717bfb642f805f053a820f3d2';
-        const receipt = await baseContract
+        const { status } = await baseContract
           .uploadScore(messageHash, v, r, s, test.user.address, score);
-        expect(receipt.status).toBe(expected);
+        expect(status).toBe(expected);
       });
     });
   });
