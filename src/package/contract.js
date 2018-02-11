@@ -1,6 +1,9 @@
+import Web3 from 'web3';
 import { handleMetaMaskErrors } from './decorators';
 import * as exceptions from './exceptions';
 import * as baseContract from './base-contract';
+
+const web3 = new Web3();
 
 export const handledPay = (...args) => {
   const safePay = handleMetaMaskErrors(baseContract.pay);
@@ -40,7 +43,7 @@ export const pay = async (user) => {
   }
   const value = await getPrice();
   const { status } = await handledPay(user, value);
-  if (status !== '0x01') {
+  if (web3.utils.hexToNumber(status) !== 1) {
     throw exceptions.TransactionFailure;
   }
   const jackpot = await getJackpot();
@@ -57,7 +60,7 @@ export const uploadScore = async (signature, user, scorePreImage) => {
     signature.messageHash, signature.v, signature.r, signature.s,
     user, scorePreImage,
   );
-  if (status !== '0x01') {
+  if (web3.utils.hexToNumber(status) !== 1) {
     throw exceptions.TransactionFailure;
   }
   const jackpot = await getJackpot();
@@ -71,7 +74,7 @@ export const adjustPrice = async (signature, user, pricePreImage) => {
     signature.messageHash, signature.v, signature.r, signature.s,
     user, pricePreImage,
   );
-  if (status !== '0x01') {
+  if (web3.utils.hexToNumber(status) !== 1) {
     throw exceptions.TransactionFailure;
   }
   const price = await getPrice();
