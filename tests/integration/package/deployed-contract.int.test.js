@@ -12,13 +12,17 @@ describe('deployed contract', () => {
     deployedContract.contract.setProvider(web3Provisioned.web3.currentProvider);
   });
 
+  it('should have correct address', async () => {
+    expect(deployedContract.contract._address).toBe(deployedContract.address); // eslint-disable-line no-underscore-dangle, max-len
+  });
+
   it('should have code', async () => {
     const contractCode = await web3Provisioned
       .web3.eth.getCode(deployedContract.contract._address); // eslint-disable-line no-underscore-dangle, max-len
     expect(contractCode).not.toBe('0x0');
   });
 
-  it('owner should be real owner', async () => {
+  it('owner should be from envvar', async () => {
     const contractOwner = await deployedContract.contract.methods.owner().call();
     const ownerPrivateKey = process.env.ARCADE_PRIVATE_KEY;
     const owner = web3Provisioned.web3.eth.accounts.privateKeyToAccount(ownerPrivateKey);

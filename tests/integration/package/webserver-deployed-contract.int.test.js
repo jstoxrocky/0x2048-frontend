@@ -4,6 +4,8 @@ import * as deployedContract from '../../../src/package/deployed-contract';
 import * as api from '../../../src/package/base-api';
 import * as test from '../../unit/package/test-setup/test-provider';
 
+jest.setTimeout(500000);
+
 describe('deployed contract', () => {
   beforeAll(() => {
     web3Provisioned.web3 = new Web3();
@@ -29,5 +31,28 @@ describe('deployed contract', () => {
     const webserverSigner = await web3Provisioned
       .web3.eth.accounts.recover(signature.messageHash, signature.signature);
     expect(webserverSigner).toBe(contractOwner);
+  });
+
+  it('price', async () => {
+    const { signature, price } = await api.price(test.owner.address);
+    const data = await deployedContract.contract.methods.adjustPrice(
+      signature.messageHash,
+      signature.v,
+      signature.r,
+      signature.s,
+      test.owner.address,
+      price,
+    ).encodeABI();
+    const nonce = await web3Provisioned.web3.eth.getTransactionCount(test.owner.address);
+    const value = 0;
+    const to = deployedContract.contract._address; // eslint-disable-line no-underscore-dangle
+    const { gas, gasPrice } = web3Provisioned;
+    const chainId = web3Provisioned.network;
+    const rawTx = {
+      chainId, nonce, gas, gasPrice, to, value, data,
+    };
+    const signed = await test.owner.signTransaction(rawTx);
+    const { status } = await web3Provisioned.web3.eth.sendSignedTransaction(signed.rawTransaction);
+    expect(status).toBe('0x1');
   });
 });
