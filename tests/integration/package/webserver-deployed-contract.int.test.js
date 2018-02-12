@@ -34,16 +34,18 @@ describe('deployed contract', () => {
   });
 
   it('price', async () => {
-    const { signature, price } = await api.price(test.owner.address);
+    const rinkebyUserPrivateKey = process.env.RINKEBY_USER;
+    const user = web3Provisioned.web3.eth.accounts.privateKeyToAccount(rinkebyUserPrivateKey);
+    const { signature, price } = await api.price(user.address);
     const data = await deployedContract.contract.methods.adjustPrice(
       signature.messageHash,
       signature.v,
       signature.r,
       signature.s,
-      test.owner.address,
+      user.address,
       price,
     ).encodeABI();
-    const nonce = await web3Provisioned.web3.eth.getTransactionCount(test.owner.address);
+    const nonce = await web3Provisioned.web3.eth.getTransactionCount(user.address);
     const value = 0;
     const to = deployedContract.contract._address; // eslint-disable-line no-underscore-dangle
     const { gas, gasPrice } = web3Provisioned;
@@ -51,7 +53,7 @@ describe('deployed contract', () => {
     const rawTx = {
       chainId, nonce, gas, gasPrice, to, value, data,
     };
-    const signed = await test.owner.signTransaction(rawTx);
+    const signed = await user.signTransaction(rawTx);
     const { status } = await web3Provisioned.web3.eth.sendSignedTransaction(signed.rawTransaction);
     expect(status).toBe('0x1');
   });
