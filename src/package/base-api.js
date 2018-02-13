@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://127.0.0.1:5000';
+const baseURL = 'http://webserver0x2048-staging.us-west-2.elasticbeanstalk.com';
 const withCredentials = true;
 const api = axios.create({ withCredentials, baseURL });
 
