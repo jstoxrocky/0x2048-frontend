@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getArcadeState from '../../actions/arcade-state';
+import './home-style.css';
 
 class Home extends React.Component {
   componentDidMount() {
