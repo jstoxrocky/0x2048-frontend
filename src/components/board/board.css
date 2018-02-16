@@ -1,0 +1,18 @@
+.board {
+	/*background-color: red;*/
+	/*background-color: #ecebeb;*/
+	height: 100%;
+	width: 100%;
+}
+
+.board-row {
+	height: 25%;
+}
+
+.tile {
+  /*background-color: #blue;*/
+  background-color: #ecebeb;
+  height: 100%;
+  display:flex;
+  justify-content: center;
+}
