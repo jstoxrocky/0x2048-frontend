@@ -45,7 +45,7 @@ describe('deployed contract', () => {
       user.address,
       price,
     ).encodeABI();
-    const nonce = await web3Provisioned.web3.eth.getTransactionCount(user.address);
+    const nonce = await web3Provisioned.web3.eth.getTransactionCount(user.address, 'pending');
     const value = 0;
     const to = deployedContract.contract._address; // eslint-disable-line no-underscore-dangle
     const { gas, gasPrice } = web3Provisioned;
