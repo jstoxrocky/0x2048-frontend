@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import MessageGroup from './message-group';
+import MessageAlert from './message-alert';
 
 const Message = ({ value, visible, level }) => (
-  visible ? <MessageGroup value={value} level={level} /> : <div />
+  visible ? <MessageAlert value={value} level={level} /> : <div />
 );
 
 Message.propTypes = {

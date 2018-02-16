@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { PureBoard } from '../../../src/components/move/board';
+import { PureBoard } from '../../../src/components/board/board';
 import { initialState } from '../../../src/reducers/game-state-reducer';
 
 Enzyme.configure({ adapter: new Adapter() });

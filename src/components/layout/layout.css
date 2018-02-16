@@ -1,0 +1,11 @@
+.outer-backdrop {
+	padding: 25px;
+	height: 100%;
+}
+
+.inner-backdrop {
+	background-color: #f5f5f5;
+	color: #787777;
+	padding: 15px;
+	height: 100%;
+}

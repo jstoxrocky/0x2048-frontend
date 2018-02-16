@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { PureAdjustPriceBtn } from '../../../src/components/adjust-price/adjust-price-btn';
+import { PureAdjustPriceBtn } from '../../../src/components/contract-btns/adjust-price/adjust-price-btn';
 import * as adjustPrice from '../../../src/actions/adjust-price';
 
 Enzyme.configure({ adapter: new Adapter() });

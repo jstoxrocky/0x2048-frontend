@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { PurePayBtn } from '../../../src/components/pay/pay-btn';
+import { PurePayBtn } from '../../../src/components/contract-btns/pay/pay-btn';
 import * as pay from '../../../src/actions/pay';
 
 Enzyme.configure({ adapter: new Adapter() });

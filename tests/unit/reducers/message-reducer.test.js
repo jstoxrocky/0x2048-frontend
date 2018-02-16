@@ -49,7 +49,7 @@ describe('message reducer pending actions', () => {
     const pendingAction = {
       type: types.MOVE_PENDING,
     };
-    expect(reducer({}, pendingAction)).toEqual(messages.Loading);
+    expect(reducer({}, pendingAction)).toEqual({});
   });
 
   it('should handle ADJUST_PRICE_PENDING', () => {
@@ -167,5 +167,13 @@ describe('message reducer rejected actions', () => {
     const expectedOutput = merge({}, messages.AdjustPriceRejected);
     expectedOutput.value = [messages.AdjustPriceRejected.value, payloadError.message].join(' ');
     expect(reducer({}, rejectedAction)).toEqual(expectedOutput);
+  });
+
+  it('should handle HIDE_MESSAGE', () => {
+    const action = {
+      type: types.HIDE_MESSAGE,
+    };
+    const expectedOutput = merge({}, initialState, { visible: false });
+    expect(reducer({}, action)).toEqual(expectedOutput);
   });
 });
