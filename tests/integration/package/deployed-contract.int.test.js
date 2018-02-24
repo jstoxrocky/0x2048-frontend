@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+import Web3 from 'web3/packages/web3';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contract';
 
@@ -13,7 +13,7 @@ describe('deployed contract', () => {
   });
 
   it('should have correct address', async () => {
-    expect(deployedContract.contract._address).toBe(deployedContract.address); // eslint-disable-line no-underscore-dangle, max-len
+    expect(deployedContract.contract._address).toBe(deployedContract.arcadeAddress); // eslint-disable-line no-underscore-dangle, max-len
   });
 
   it('should have code', async () => {
@@ -24,7 +24,7 @@ describe('deployed contract', () => {
 
   it('owner should be from envvar', async () => {
     const contractOwner = await deployedContract.contract.methods.owner().call();
-    const ownerPrivateKey = process.env.ARCADE_PRIVATE_KEY;
+    const ownerPrivateKey = process.env.PRIVATE_KEY_0x2048;
     const owner = web3Provisioned.web3.eth.accounts.privateKeyToAccount(ownerPrivateKey);
     expect(contractOwner).toBe(owner.address);
   });

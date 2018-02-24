@@ -1,12 +1,41 @@
+import Web3 from 'web3/packages/web3';
+import ganache from 'ganache-core';
+import merge from 'lodash/merge';
 import reducer from '../../../src/reducers/game-state-reducer';
 import * as types from '../../../src/actions/action-types';
 import * as api from '../../../src/package/api';
-import { user } from '../../unit/package/test-setup/test-provider';
+import * as web3Provisioned from '../../../src/package/web3-provisioned';
+import * as deployedContract from '../../../src/package/deployed-contract';
+import * as test from '../../unit/package/test-setup/test-provider';
 
-describe('game-state reducer', () => {
+web3Provisioned.web3 = new Web3();
+const provider = ganache.provider(test.options);
+web3Provisioned.web3.setProvider(provider);
+
+describe('/iou and /move', () => {
+  beforeAll(async () => {
+    // IOU
+    const value = 100;
+    const msg = Web3.utils.soliditySha3(
+      { type: 'address', value: deployedContract.accountAddress },
+      { type: 'address', value: test.user.address },
+      { type: 'uint256', value },
+    );
+    const signature = web3Provisioned.web3.eth.accounts.sign(msg, test.user.privateKey);
+    const { v } = signature;
+    const signed = merge(
+      {},
+      { signature: merge({}, signature, { v: Web3.utils.hexToNumber(v) }) },
+      { user: test.user.address, value },
+    );
+    const data = await api.iou(signed);
+    const { success } = data;
+    expect(success).toBe(true);
+  });
+
   it('should handle MOVE_FULFILLED', async () => {
     const direction = 1;
-    const data = await api.move(user.address, direction);
+    const data = await api.move(test.user.address, direction);
     const fulfilledAction = {
       type: types.MOVE_FULFILLED,
       payload: data,

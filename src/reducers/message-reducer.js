@@ -12,9 +12,7 @@ export default (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {
     case types.GET_GAME_STATE_PENDING:
-    case types.PAY_PENDING:
     case types.GET_ARCADE_STATE_PENDING:
-    case types.ADJUST_PRICE_PENDING:
     case types.UPLOAD_PENDING: {
       return merge({}, state, messages.Loading);
     }
@@ -23,14 +21,8 @@ export default (state = initialState, action) => {
     case types.GET_ARCADE_STATE_FULFILLED: {
       return merge({}, state, initialState);
     }
-    case types.PAY_FULFILLED: {
-      return merge({}, state, messages.PaySuccess);
-    }
     case types.UPLOAD_FULFILLED: {
       return merge({}, state, messages.UploadScoreSuccess);
-    }
-    case types.ADJUST_PRICE_FULFILLED: {
-      return merge({}, state, messages.AdjustPriceSuccess);
     }
     case types.GET_GAME_STATE_REJECTED: {
       const newState = merge({}, state, messages.GetGameStateRejected);
@@ -42,11 +34,6 @@ export default (state = initialState, action) => {
       newState.value = [newState.value, action.payload.message].join(' ');
       return newState;
     }
-    case types.PAY_REJECTED: {
-      const newState = merge({}, state, messages.PaymentRejected);
-      newState.value = [newState.value, action.payload.message].join(' ');
-      return newState;
-    }
     case types.GET_ARCADE_STATE_REJECTED: {
       const newState = merge({}, state, messages.GetArcadeStateRejected);
       newState.value = [newState.value, action.payload.message].join(' ');
@@ -54,11 +41,6 @@ export default (state = initialState, action) => {
     }
     case types.UPLOAD_REJECTED: {
       const newState = merge({}, state, messages.UploadRejected);
-      newState.value = [newState.value, action.payload.message].join(' ');
-      return newState;
-    }
-    case types.ADJUST_PRICE_REJECTED: {
-      const newState = merge({}, state, messages.AdjustPriceRejected);
       newState.value = [newState.value, action.payload.message].join(' ');
       return newState;
     }
