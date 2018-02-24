@@ -2,8 +2,9 @@ import Web3 from 'web3/packages/web3';
 import ganache from 'ganache-core';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contract';
-import * as test from './test-setup/test-provider';
-import { abi, data } from './test-setup/abi';
+import * as test from '../../testnet-config';
+import * as accounts from '../../accounts';
+import { abi, data } from '../../abi';
 
 describe('deployed contract', () => {
   beforeAll(async () => {
@@ -23,6 +24,6 @@ describe('deployed contract', () => {
 
   it('owner should be test owner', async () => {
     const contractOwner = await deployedContract.contract.methods.owner().call();
-    expect(contractOwner).toBe(test.owner.address);
+    expect(contractOwner).toBe(accounts.owner.address);
   });
 });

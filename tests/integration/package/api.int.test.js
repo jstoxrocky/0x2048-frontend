@@ -1,14 +1,6 @@
-import Web3 from 'web3/packages/web3';
-import ganache from 'ganache-core';
-import merge from 'lodash/merge';
 import * as api from '../../../src/package/base-api';
-import * as deployedContract from '../../../src/package/deployed-contract';
-import * as test from '../../unit/package/test-setup/test-provider';
-import * as web3Provisioned from '../../../src/package/web3-provisioned';
-
-web3Provisioned.web3 = new Web3();
-const provider = ganache.provider(test.options);
-web3Provisioned.web3.setProvider(provider);
+import * as accounts from '../../accounts';
+import sendIOU from '../sendIOU';
 
 it('/gamestate', async () => {
   const data = await api.gameState();
@@ -50,29 +42,13 @@ it('/gamestate', async () => {
 
 describe('/iou and /move', () => {
   beforeAll(async () => {
-    // IOU
-    const value = 100;
-    const msg = Web3.utils.soliditySha3(
-      { type: 'address', value: deployedContract.accountAddress },
-      { type: 'address', value: test.user.address },
-      { type: 'uint256', value },
-    );
-    const signature = web3Provisioned.web3.eth.accounts.sign(msg, test.user.privateKey);
-    const { v } = signature;
-    const signed = merge(
-      {},
-      { signature: merge({}, signature, { v: Web3.utils.hexToNumber(v) }) },
-      { user: test.user.address, value },
-    );
-    const data = await api.iou(signed);
-    const { success } = data;
-    expect(success).toBe(true);
+    await sendIOU();
   });
 
   it('/move', async () => {
     // Move
     const direction = 1;
-    const data = await api.move(test.user.address, direction);
+    const data = await api.move(accounts.user.address, direction);
 
     expect(data).toHaveProperty('score');
     expect(data).toHaveProperty('board');

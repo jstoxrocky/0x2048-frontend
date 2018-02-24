@@ -5,7 +5,7 @@ import * as api from '../../../src/package/api';
 import * as exceptions from '../../../src/package/exceptions';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as endpoints from '../../../src/package/endpoints';
-import * as test from './test-setup/test-provider';
+import * as test from '../../testnet-config';
 import * as Contract from '../../../src/package/contract';
 
 describe('endpoints', () => {
