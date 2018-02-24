@@ -3,8 +3,9 @@ import ganache from 'ganache-core';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contract';
 import * as baseContract from '../../../src/package/base-contract';
-import * as test from './test-setup/test-provider';
-import { abi, data } from './test-setup/abi';
+import * as test from '../../testnet-config';
+import * as accounts from '../../accounts';
+import { abi, data } from '../../abi';
 
 describe('base-contract', () => {
   beforeAll(async () => {
@@ -37,7 +38,7 @@ describe('base-contract', () => {
 
     it('initial isParticipant should be false', async () => {
       const expected = false;
-      const output = await baseContract.getParticipation(test.owner.address);
+      const output = await baseContract.getParticipation(accounts.owner.address);
       expect(output).toBe(expected);
     });
   });
@@ -45,11 +46,11 @@ describe('base-contract', () => {
   describe('transactions', () => {
     describe('requires user to be participant', () => {
       beforeEach(async () => {
-        const isParticipant = await baseContract.getParticipation(test.user.address);
+        const isParticipant = await baseContract.getParticipation(accounts.user.address);
         if (!isParticipant) {
           const expected = '0x01';
           const price = await baseContract.getPrice();
-          const { status } = await baseContract.pay(test.user.address, price);
+          const { status } = await baseContract.pay(accounts.user.address, price);
           expect(status).toBe(expected);
         }
       });
@@ -62,7 +63,7 @@ describe('base-contract', () => {
         const r = '0x2aaf6d6b8e6084b4b8220b81501da9565661d84dfc85474827d2aeaf47af1428';
         const s = '0x29669f85961770eb3d9ad36e7808ebf3cd616ad717bfb642f805f053a820f3d2';
         const { status } = await baseContract
-          .uploadScore(messageHash, v, r, s, test.user.address, score);
+          .uploadScore(messageHash, v, r, s, accounts.user.address, score);
         expect(status).toBe(expected);
       });
     });
