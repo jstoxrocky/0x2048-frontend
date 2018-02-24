@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import * as exceptions from '../../../src/package/exceptions';
 import * as baseApi from '../../../src/package/base-api';
-import { move, price, gameState } from '../../../src/package/api';
+import { move, gameState, iou } from '../../../src/package/api';
 
 describe('handle gameState', () => {
   beforeEach(() => {
@@ -47,24 +47,24 @@ describe('handle move', () => {
   });
 });
 
-describe('handle price', () => {
+describe('handle iou', () => {
   beforeEach(() => {
-    sinon.stub(baseApi, 'price');
+    sinon.stub(baseApi, 'iou');
   });
 
   afterEach(() => {
-    baseApi.price.restore();
+    baseApi.iou.restore();
   });
 
   it('should throw ServerError', async () => {
-    baseApi.price.returns(Promise.reject());
-    await expect(price()).rejects.toEqual(exceptions.ServerError);
+    baseApi.iou.returns(Promise.reject());
+    await expect(iou()).rejects.toEqual(exceptions.ServerError);
   });
 
   it('should succeed', async () => {
     const expected = 4;
-    baseApi.price.returns(Promise.resolve(expected));
-    const output = await price();
+    baseApi.iou.returns(Promise.resolve(expected));
+    const output = await iou();
     expect(output).toBe(expected);
   });
 });

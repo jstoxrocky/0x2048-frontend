@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import React from 'react';
-import Web3 from 'web3';
+import Web3 from 'web3/packages/web3';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import getArcadeState from '../../actions/arcade-state';

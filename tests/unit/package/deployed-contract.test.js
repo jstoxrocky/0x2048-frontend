@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+import Web3 from 'web3/packages/web3';
 import ganache from 'ganache-core';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contract';
@@ -12,7 +12,6 @@ describe('deployed contract', () => {
     web3Provisioned.web3.setProvider(provider);
     const undeployedContract = new web3Provisioned.web3.eth.Contract(abi, { data });
     const contract = await undeployedContract.deploy().send(test.deploymentOptions);
-    contract.setProvider(provider);
     deployedContract.contract = contract;
   });
 

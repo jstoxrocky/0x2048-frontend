@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+import Web3 from 'web3/packages/web3';
 import { handleMetaMaskErrors } from './decorators';
 import * as exceptions from './exceptions';
 import * as baseContract from './base-contract';
