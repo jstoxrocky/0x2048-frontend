@@ -33,7 +33,7 @@
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.0.0",
     "style-loader": "^0.20.1",
-    "web3": "^1.0.0-beta.27",
+    "web3": "git://github.com/ethereum/web3.js.git#c9ca65dbf0ab42bc13f681b36ab7e2c93dd8d98e",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
   },
@@ -49,6 +49,7 @@
     "ganache-core": "^2.1.0-beta.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.1.4",
+    "lerna": "^2.9.0",
     "redux-mock-store": "^1.5.1",
     "sinon": "^4.2.2"
   },

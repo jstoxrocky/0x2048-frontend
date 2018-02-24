@@ -17,13 +17,6 @@ describe('message reducer initial state', () => {
 });
 
 describe('message reducer pending actions', () => {
-  it('should handle PAY_PENDING', () => {
-    const pendingAction = {
-      type: types.PAY_PENDING,
-    };
-    expect(reducer({}, pendingAction)).toEqual(messages.Loading);
-  });
-
   it('should handle GET_ARCADE_STATE_PENDING', () => {
     const pendingAction = {
       type: types.GET_ARCADE_STATE_PENDING,
@@ -51,24 +44,9 @@ describe('message reducer pending actions', () => {
     };
     expect(reducer({}, pendingAction)).toEqual({});
   });
-
-  it('should handle ADJUST_PRICE_PENDING', () => {
-    const pendingAction = {
-      type: types.ADJUST_PRICE_PENDING,
-    };
-    expect(reducer({}, pendingAction)).toEqual(messages.Loading);
-  });
 });
 
 describe('message reducer fulfilled actions', () => {
-  it('should handle PAY_FULFILLED', () => {
-    const fulfilledAction = {
-      type: types.PAY_FULFILLED,
-      payload: messages.TransactionSuccess,
-    };
-    expect(reducer({}, fulfilledAction)).toEqual(messages.PaySuccess);
-  });
-
   it('should handle GET_ARCADE_STATE_FULFILLED', () => {
     const fulfilledAction = {
       type: types.GET_ARCADE_STATE_FULFILLED,
@@ -98,27 +76,9 @@ describe('message reducer fulfilled actions', () => {
     };
     expect(reducer({}, fulfilledAction)).toEqual(initialState);
   });
-
-  it('should handle ADJUST_PRICE_FULFILLED', () => {
-    const fulfilledAction = {
-      type: types.ADJUST_PRICE_FULFILLED,
-      payload: messages.TransactionSuccess,
-    };
-    expect(reducer({}, fulfilledAction)).toEqual(messages.AdjustPriceSuccess);
-  });
 });
 
 describe('message reducer rejected actions', () => {
-  it('should handle PAY_REJECTED', () => {
-    const rejectedAction = {
-      type: types.PAY_REJECTED,
-      payload: payloadError,
-    };
-    const expectedOutput = merge({}, messages.PaymentRejected);
-    expectedOutput.value = [messages.PaymentRejected.value, payloadError.message].join(' ');
-    expect(reducer({}, rejectedAction)).toEqual(expectedOutput);
-  });
-
   it('should handle GET_ARCADE_STATE_REJECTED', () => {
     const rejectedAction = {
       type: types.GET_ARCADE_STATE_REJECTED,
@@ -156,16 +116,6 @@ describe('message reducer rejected actions', () => {
     };
     const expectedOutput = merge({}, messages.MoveRejected);
     expectedOutput.value = [messages.MoveRejected.value, payloadError.message].join(' ');
-    expect(reducer({}, rejectedAction)).toEqual(expectedOutput);
-  });
-
-  it('should handle ADJUST_PRICE_REJECTED', () => {
-    const rejectedAction = {
-      type: types.ADJUST_PRICE_REJECTED,
-      payload: payloadError,
-    };
-    const expectedOutput = merge({}, messages.AdjustPriceRejected);
-    expectedOutput.value = [messages.AdjustPriceRejected.value, payloadError.message].join(' ');
     expect(reducer({}, rejectedAction)).toEqual(expectedOutput);
   });
 

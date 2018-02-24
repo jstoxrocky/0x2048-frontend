@@ -11,14 +11,6 @@ describe('contract-btns', () => {
     renderedContractBtns = shallow(<ContractBtns />);
   });
 
-  it('should have 1 Pay', () => {
-    expect(renderedContractBtns.find('Pay').length).toBe(1);
-  });
-
-  it('should have 1 AdjustPrice', () => {
-    expect(renderedContractBtns.find('AdjustPrice').length).toBe(1);
-  });
-
   it('should have 1 UploadScore', () => {
     expect(renderedContractBtns.find('UploadScore').length).toBe(1);
   });

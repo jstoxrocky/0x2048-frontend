@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import Web3 from 'web3';
+import Web3 from 'web3/packages/web3';
 import ganache from 'ganache-core';
 import * as exceptions from '../../../src/package/exceptions';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
@@ -18,7 +18,6 @@ describe('contract', () => {
     web3Provisioned.web3.setProvider(provider);
     const undeployedContract = new web3Provisioned.web3.eth.Contract(abi, { data });
     const contract = await undeployedContract.deploy().send(test.deploymentOptions);
-    contract.setProvider(provider);
     deployedContract.contract = contract;
   });
 
@@ -54,24 +53,6 @@ describe('contract', () => {
         .uploadScore(signature, test.notOwner.address, score)
         .catch(e => (expect(e))
           .toEqual(exceptions.UserHasNotPaid));
-    });
-
-    it('adjust price should succeed', async () => {
-      const expected = {
-        price: 20,
-      };
-      const price = 20;
-      const signature = { message: '0xc433cc18451df237ae66e959bb96c0e138f574b03e2935961a761b65e15bfe9e', messageHash: '0x0ac72c075b9b1176cd7207ae57038d363553c8ec552c19abec25d31204fc6c01', v: '0x1c', r: '0x987c73122c6ce34ac55396f51a77f4fd3ed8ad98bb42320efaf4fc55176f36fb', s: '0x0ffe8cfaac7a0e9588cd687232cc54f70b396c3854d63fea76ee2a0132b96b95', signature: '0x987c73122c6ce34ac55396f51a77f4fd3ed8ad98bb42320efaf4fc55176f36fb0ffe8cfaac7a0e9588cd687232cc54f70b396c3854d63fea76ee2a0132b96b951c' }; // eslint-disable-line object-curly-newline
-      const output = await Contract.adjustPrice(signature, test.user.address, price);
-      expect(output).toEqual(expected);
-    });
-
-    it('adjust price fail if not signed by owner', async () => {
-      const price = 20;
-      const signature = { message: '0xc433cc18451df237ae66e959bb96c0e138f574b03e2935961a761b65e15bfe9e', messageHash: '0x0ac72c075b9b1176cd7207ae57038d363553c8ec552c19abec25d31204fc6c01', v: '0x1b', r: '0x4dfab961b5e17228d072abd3df1a8f56039aef2097dbfa204b417ccc3f380f0e', s: '0x14d7e875bbd204f0f25215c66b0de35be2e5139cec692cf7d30d632118943c73', signature: '0x4dfab961b5e17228d072abd3df1a8f56039aef2097dbfa204b417ccc3f380f0e14d7e875bbd204f0f25215c66b0de35be2e5139cec692cf7d30d632118943c731b' }; // eslint-disable-line object-curly-newline
-      Contract.adjustPrice(signature, test.user.address, price)
-        .catch(e => (expect(e))
-          .toEqual(exceptions.TransactionFailure));
     });
 
     describe('requires user to be participant', () => {
@@ -114,30 +95,16 @@ describe('contract', () => {
 
   describe('MetaMask error', () => {
     beforeEach(() => {
-      sinon.stub(baseContract, 'pay');
       sinon.stub(baseContract, 'uploadScore');
-      sinon.stub(baseContract, 'adjustPrice');
     });
 
     afterEach(() => {
-      baseContract.pay.restore();
       baseContract.uploadScore.restore();
-      baseContract.adjustPrice.restore();
-    });
-
-    it('handledPay handle should throw MetaMaskError', async () => {
-      baseContract.pay.returns(Promise.reject());
-      await expect(Contract.handledPay()).rejects.toEqual(exceptions.MetamaskError);
     });
 
     it('handledUploadScore should throw MetaMaskError', async () => {
       baseContract.uploadScore.returns(Promise.reject());
       await expect(Contract.handledUploadScore()).rejects.toEqual(exceptions.MetamaskError);
-    });
-
-    it('handledAdjustPrice should throw MetaMaskError', async () => {
-      baseContract.adjustPrice.returns(Promise.reject());
-      await expect(Contract.handledAdjustPrice()).rejects.toEqual(exceptions.MetamaskError);
     });
   });
 });

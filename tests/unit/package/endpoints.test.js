@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import Web3 from 'web3';
+import Web3 from 'web3/packages/web3';
 import ganache from 'ganache-core';
 import * as api from '../../../src/package/api';
 import * as exceptions from '../../../src/package/exceptions';
@@ -16,23 +16,26 @@ describe('endpoints', () => {
   });
 
   beforeEach(() => {
-    sinon.stub(api, 'gameState');
     sinon.stub(api, 'move');
-    sinon.stub(api, 'price');
+    sinon.stub(api, 'gameState');
+    sinon.stub(api, 'iou');
     sinon.stub(Contract, 'getArcadeState');
-    sinon.stub(Contract, 'pay');
     sinon.stub(Contract, 'uploadScore');
-    sinon.stub(Contract, 'adjustPrice');
   });
 
   afterEach(() => {
-    api.gameState.restore();
     api.move.restore();
-    api.price.restore();
+    api.gameState.restore();
+    api.iou.restore();
     Contract.getArcadeState.restore();
-    Contract.pay.restore();
     Contract.uploadScore.restore();
-    Contract.adjustPrice.restore();
+  });
+
+  it('move should succeed', async () => {
+    const expected = 1337;
+    api.move.returns(Promise.resolve(expected));
+    const output = await endpoints.move();
+    expect(output).toEqual(expected);
   });
 
   it('gameState should succeed', async () => {
@@ -42,10 +45,10 @@ describe('endpoints', () => {
     expect(output).toEqual(expected);
   });
 
-  it('move should succeed', async () => {
+  it('iou should succeed', async () => {
     const expected = 1337;
-    api.move.returns(Promise.resolve(expected));
-    const output = await endpoints.move();
+    api.iou.returns(Promise.resolve(expected));
+    const output = await endpoints.iou();
     expect(output).toEqual(expected);
   });
 
@@ -56,13 +59,6 @@ describe('endpoints', () => {
     expect(output).toEqual(expected);
   });
 
-  it('pay should succeed', async () => {
-    const expected = 1337;
-    Contract.pay.returns(Promise.resolve(expected));
-    const output = await endpoints.pay();
-    expect(output).toEqual(expected);
-  });
-
   it('uploadScore should succeed', async () => {
     const expected = 1337;
     Contract.uploadScore.returns(Promise.resolve(expected));
@@ -70,21 +66,13 @@ describe('endpoints', () => {
     expect(output).toEqual(expected);
   });
 
-  it('adjustPrice should succeed', async () => {
-    const expected = 1337;
-    api.price.returns(Promise.resolve({ signature: null, price: null }));
-    Contract.adjustPrice.returns(Promise.resolve(expected));
-    const output = await endpoints.adjustPrice();
-    expect(output).toEqual(expected);
-  });
-
   it('should throw NoWeb3Provider with web3 undefined', async () => {
+    // endpoints.gameState() not included since it does not require a user argument
     web3Provisioned.web3 = undefined;
     await expect(endpoints.move()).rejects.toEqual(exceptions.NoWeb3Provider);
+    await expect(endpoints.iou()).rejects.toEqual(exceptions.NoWeb3Provider);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.NoWeb3Provider);
-    await expect(endpoints.pay()).rejects.toEqual(exceptions.NoWeb3Provider);
-    await expect(endpoints.pay()).rejects.toEqual(exceptions.NoWeb3Provider);
-    await expect(endpoints.adjustPrice()).rejects.toEqual(exceptions.NoWeb3Provider);
+    await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.NoWeb3Provider);
     web3Provisioned.web3 = new Web3();
     web3Provisioned.web3.setProvider(ganache.provider(test.options));
   });
@@ -94,19 +82,18 @@ describe('endpoints', () => {
     const provider = ganache.provider({ total_accounts: 0 });
     web3Provisioned.web3.setProvider(provider);
     await expect(endpoints.move()).rejects.toEqual(exceptions.NoAccountsAvailable);
+    await expect(endpoints.iou()).rejects.toEqual(exceptions.NoAccountsAvailable);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.NoAccountsAvailable);
-    await expect(endpoints.pay()).rejects.toEqual(exceptions.NoAccountsAvailable);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.NoAccountsAvailable);
-    await expect(endpoints.adjustPrice()).rejects.toEqual(exceptions.NoAccountsAvailable);
   });
 
   it('should throw WrongNetwork with wrong network', async () => {
+    // endpoints.gameState() not included since it does not require a user argument
     const provider = ganache.provider({ network_id: 31337 });
     web3Provisioned.web3.setProvider(provider);
     await expect(endpoints.move()).rejects.toEqual(exceptions.WrongNetwork);
+    await expect(endpoints.iou()).rejects.toEqual(exceptions.WrongNetwork);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.WrongNetwork);
-    await expect(endpoints.pay()).rejects.toEqual(exceptions.WrongNetwork);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.WrongNetwork);
-    await expect(endpoints.adjustPrice()).rejects.toEqual(exceptions.WrongNetwork);
   });
 });
