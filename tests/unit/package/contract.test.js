@@ -6,8 +6,9 @@ import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contract';
 import * as Contract from '../../../src/package/contract';
 import * as baseContract from '../../../src/package/base-contract';
-import * as test from './test-setup/test-provider';
-import { abi, data } from './test-setup/abi';
+import * as test from '../../testnet-config';
+import * as accounts from '../../accounts';
+import { abi, data } from '../../abi';
 
 jest.setTimeout(10000);
 
@@ -26,7 +27,7 @@ describe('contract', () => {
       const expected = {
         isParticipant: false, jackpot: 0, price: 250000000000000, round: 1,
       };
-      const output = await Contract.getArcadeState(test.user.address);
+      const output = await Contract.getArcadeState(accounts.user.address);
       expect(output).toEqual(expected);
     });
   });
@@ -36,7 +37,7 @@ describe('contract', () => {
       const expected = {
         isParticipant: true, jackpot: 225000000000000,
       };
-      const output = await Contract.pay(test.user.address);
+      const output = await Contract.pay(accounts.user.address);
       expect(output).toEqual(expected);
     });
 
@@ -50,18 +51,18 @@ describe('contract', () => {
         messageHash, v, r, s,
       };
       await Contract
-        .uploadScore(signature, test.notOwner.address, score)
+        .uploadScore(signature, accounts.user2.address, score)
         .catch(e => (expect(e))
           .toEqual(exceptions.UserHasNotPaid));
     });
 
     describe('requires user to be participant', () => {
       beforeEach(async () => {
-        const isParticipant = await baseContract.getParticipation(test.user.address);
+        const isParticipant = await baseContract.getParticipation(accounts.user.address);
         if (!isParticipant) {
           const expected = '0x01';
           const price = await baseContract.getPrice();
-          const { status } = await baseContract.pay(test.user.address, price);
+          const { status } = await baseContract.pay(accounts.user.address, price);
           expect(status).toBe(expected);
         }
       });
@@ -69,7 +70,7 @@ describe('contract', () => {
       it('upload score should fail if not signed by owner', async () => {
         const score = 1;
         const signature = { message: '0x484c0d310d5537808d822a42e86b7bd996db9520450a2efb764d88745a488f0f', messageHash: '0xa2b3fa66f50925b9648e1f4a0ab934a76c2d5d99f0fbdf5e7293b153a08516b2', v: '0x1c', r: '0x42c47c4647da1db355a773d8847f4089f6beea98c2e2e2c55ef6af2348589830', s: '0x3941fbca051659c927ceebb6322f7801957688ca457eef480d473ec1010f89a9', signature: '0x42c47c4647da1db355a773d8847f4089f6beea98c2e2e2c55ef6af23485898303941fbca051659c927ceebb6322f7801957688ca457eef480d473ec1010f89a91c' }; // eslint-disable-line object-curly-newline
-        Contract.uploadScore(signature, test.user.address, score)
+        Contract.uploadScore(signature, accounts.user.address, score)
           .catch(e => (expect(e))
             .toEqual(exceptions.TransactionFailure));
       });
@@ -87,7 +88,7 @@ describe('contract', () => {
           messageHash, v, r, s,
         };
         const output = await Contract
-          .uploadScore(signature, test.user.address, score);
+          .uploadScore(signature, accounts.user.address, score);
         expect(output).toEqual(expected);
       });
     });
