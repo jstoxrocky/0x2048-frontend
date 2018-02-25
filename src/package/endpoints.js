@@ -18,10 +18,11 @@ export const postIOU = async (signature) => {
   return api.postIOU(signature);
 };
 
-export const getIOU = async () => {
+export const newGame = async () => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
-  return api.getIOU(user);
+  const value = await api.getIOU(user);
+  return value;
 };
 
 export const getArcadeState = async () => {

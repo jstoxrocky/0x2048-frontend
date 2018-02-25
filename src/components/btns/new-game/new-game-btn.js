@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import getIOU from '../../../actions/get-iou';
+import newGame from '../../../actions/new-game';
 
 class NewGameBtn extends React.Component {
   componentDidMount() {
@@ -14,7 +14,7 @@ class NewGameBtn extends React.Component {
     // (3) Submit IOU (POST /iou)
     // (4) Start new game (POST /move)
     e.preventDefault();
-    this.props.dispatch(getIOU());
+    this.props.dispatch(newGame());
   }
 
   render() {
