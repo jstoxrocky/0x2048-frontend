@@ -25,5 +25,5 @@ export default async () => {
     { signature: merge({}, signature, { v: Web3.utils.hexToNumber(v) }) },
     { user: accounts.user.address, value },
   );
-  await api.iou(signed);
+  await api.postIOU(signed);
 };

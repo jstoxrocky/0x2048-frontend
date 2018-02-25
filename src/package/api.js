@@ -11,7 +11,12 @@ export const gameState = (...args) => {
   return safeGameState(...args);
 };
 
-export const iou = (...args) => {
-  const safeIou = handleServerErrors(baseAPI.iou);
-  return safeIou(...args);
+export const postIOU = (...args) => {
+  const safePostIOU = handleServerErrors(baseAPI.postIOU);
+  return safePostIOU(...args);
+};
+
+export const getIOU = (...args) => {
+  const safeGetIOU = handleServerErrors(baseAPI.getIOU);
+  return safeGetIOU(...args);
 };
