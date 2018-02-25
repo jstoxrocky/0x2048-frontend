@@ -29,6 +29,7 @@ class Success extends Visible {
 }
 
 export const Loading = new Info('Loading...');
+export const GetIOURejected = new Danger('Fetching the most recent IOU was rejected.');
 export const GetGameStateRejected = new Danger('Fetching the game-state was rejected.');
 export const MoveRejected = new Danger('Your move was rejected.');
 export const PaymentRejected = new Danger('Your payment was rejected.');
