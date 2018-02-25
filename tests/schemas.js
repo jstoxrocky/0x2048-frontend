@@ -1,3 +1,11 @@
+export const iouValueSchema = {
+  id: '/iouValueSchema',
+  type: 'object',
+  properties: {
+    value: { type: 'number', required: true },
+  },
+};
+
 export const signatureSchema = {
   id: '/signatureSchema',
   type: 'object',

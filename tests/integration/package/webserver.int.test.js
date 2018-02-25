@@ -3,7 +3,7 @@ import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as api from '../../../src/package/base-api';
 import * as accounts from '../../accounts';
 import sendIOU from '../sendIOU';
-import { signatureSchema, moveSchema } from '../../schemas';
+import { signatureSchema, moveSchema, iouValueSchema } from '../../schemas';
 
 describe('webserver', async () => {
   beforeAll(async () => {
@@ -24,6 +24,13 @@ describe('webserver', async () => {
     const validator = new jsonschema.Validator();
     validator.addSchema(signatureSchema, '/signatureSchema');
     const result = validator.validate(payload, moveSchema);
+    expect(result.errors).toHaveLength(0);
+  });
+
+  it('GET /iou data should validate', async () => {
+    const payload = await api.getIOU(accounts.user.address);
+    const validator = new jsonschema.Validator();
+    const result = validator.validate(payload, iouValueSchema);
     expect(result.errors).toHaveLength(0);
   });
 

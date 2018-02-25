@@ -18,7 +18,8 @@ describe('endpoints', () => {
   beforeEach(() => {
     sinon.stub(api, 'move');
     sinon.stub(api, 'gameState');
-    sinon.stub(api, 'iou');
+    sinon.stub(api, 'postIOU');
+    sinon.stub(api, 'getIOU');
     sinon.stub(Contract, 'getArcadeState');
     sinon.stub(Contract, 'uploadScore');
   });
@@ -26,7 +27,8 @@ describe('endpoints', () => {
   afterEach(() => {
     api.move.restore();
     api.gameState.restore();
-    api.iou.restore();
+    api.postIOU.restore();
+    api.getIOU.restore();
     Contract.getArcadeState.restore();
     Contract.uploadScore.restore();
   });
@@ -45,10 +47,17 @@ describe('endpoints', () => {
     expect(output).toEqual(expected);
   });
 
-  it('iou should succeed', async () => {
+  it('postIOU should succeed', async () => {
     const expected = 1337;
-    api.iou.returns(Promise.resolve(expected));
-    const output = await endpoints.iou();
+    api.postIOU.returns(Promise.resolve(expected));
+    const output = await endpoints.postIOU();
+    expect(output).toEqual(expected);
+  });
+
+  it('getIOU should succeed', async () => {
+    const expected = 1337;
+    api.getIOU.returns(Promise.resolve(expected));
+    const output = await endpoints.getIOU();
     expect(output).toEqual(expected);
   });
 
@@ -67,10 +76,11 @@ describe('endpoints', () => {
   });
 
   it('should throw NoWeb3Provider with web3 undefined', async () => {
-    // endpoints.gameState() not included since it does not require a user argument
+    // endpoints.gameState() not included since it does not require metamask
     web3Provisioned.web3 = undefined;
     await expect(endpoints.move()).rejects.toEqual(exceptions.NoWeb3Provider);
-    await expect(endpoints.iou()).rejects.toEqual(exceptions.NoWeb3Provider);
+    await expect(endpoints.postIOU()).rejects.toEqual(exceptions.NoWeb3Provider);
+    await expect(endpoints.getIOU()).rejects.toEqual(exceptions.NoWeb3Provider);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.NoWeb3Provider);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.NoWeb3Provider);
     web3Provisioned.web3 = new Web3();
@@ -82,17 +92,19 @@ describe('endpoints', () => {
     const provider = ganache.provider({ total_accounts: 0 });
     web3Provisioned.web3.setProvider(provider);
     await expect(endpoints.move()).rejects.toEqual(exceptions.NoAccountsAvailable);
-    await expect(endpoints.iou()).rejects.toEqual(exceptions.NoAccountsAvailable);
+    await expect(endpoints.postIOU()).rejects.toEqual(exceptions.NoAccountsAvailable);
+    await expect(endpoints.getIOU()).rejects.toEqual(exceptions.NoAccountsAvailable);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.NoAccountsAvailable);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.NoAccountsAvailable);
   });
 
   it('should throw WrongNetwork with wrong network', async () => {
-    // endpoints.gameState() not included since it does not require a user argument
+    // endpoints.gameState() not included since it does not require metamask
     const provider = ganache.provider({ network_id: 31337 });
     web3Provisioned.web3.setProvider(provider);
     await expect(endpoints.move()).rejects.toEqual(exceptions.WrongNetwork);
-    await expect(endpoints.iou()).rejects.toEqual(exceptions.WrongNetwork);
+    await expect(endpoints.postIOU()).rejects.toEqual(exceptions.WrongNetwork);
+    await expect(endpoints.getIOU()).rejects.toEqual(exceptions.WrongNetwork);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.WrongNetwork);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.WrongNetwork);
   });

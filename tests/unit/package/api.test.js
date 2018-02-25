@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import * as exceptions from '../../../src/package/exceptions';
 import * as baseApi from '../../../src/package/base-api';
-import { move, gameState, iou } from '../../../src/package/api';
+import { move, gameState, postIOU, getIOU } from '../../../src/package/api';
 
 describe('handle gameState', () => {
   beforeEach(() => {
@@ -47,24 +47,46 @@ describe('handle move', () => {
   });
 });
 
-describe('handle iou', () => {
+describe('handle postIOU', () => {
   beforeEach(() => {
-    sinon.stub(baseApi, 'iou');
+    sinon.stub(baseApi, 'postIOU');
   });
 
   afterEach(() => {
-    baseApi.iou.restore();
+    baseApi.postIOU.restore();
   });
 
   it('should throw ServerError', async () => {
-    baseApi.iou.returns(Promise.reject());
-    await expect(iou()).rejects.toEqual(exceptions.ServerError);
+    baseApi.postIOU.returns(Promise.reject());
+    await expect(postIOU()).rejects.toEqual(exceptions.ServerError);
   });
 
   it('should succeed', async () => {
     const expected = 4;
-    baseApi.iou.returns(Promise.resolve(expected));
-    const output = await iou();
+    baseApi.postIOU.returns(Promise.resolve(expected));
+    const output = await postIOU();
+    expect(output).toBe(expected);
+  });
+});
+
+describe('handle getIOU', () => {
+  beforeEach(() => {
+    sinon.stub(baseApi, 'getIOU');
+  });
+
+  afterEach(() => {
+    baseApi.getIOU.restore();
+  });
+
+  it('should throw ServerError', async () => {
+    baseApi.getIOU.returns(Promise.reject());
+    await expect(getIOU()).rejects.toEqual(exceptions.ServerError);
+  });
+
+  it('should succeed', async () => {
+    const expected = 4;
+    baseApi.getIOU.returns(Promise.resolve(expected));
+    const output = await getIOU();
     expect(output).toBe(expected);
   });
 });
