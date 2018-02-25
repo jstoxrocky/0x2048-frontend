@@ -2,7 +2,7 @@ import React from 'react';
 import Board from '../board/board';
 import Stats from '../stats/stats';
 import Controller from '../controller/controller';
-import ContractBtns from '../contract-btns/contract-btns';
+import Btns from '../btns/btns';
 import './layout.css';
 
 export default () => (
@@ -17,7 +17,7 @@ export default () => (
         </div>
         <div className="col-2 d-none d-lg-block">
           <Controller />
-          <ContractBtns />
+          <Btns />
         </div>
       </div>
     </div>

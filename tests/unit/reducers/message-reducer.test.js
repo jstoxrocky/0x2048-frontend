@@ -38,6 +38,13 @@ describe('message reducer pending actions', () => {
     expect(reducer({}, pendingAction)).toEqual(messages.Loading);
   });
 
+  it('should handle GET_IOU_PENDING', () => {
+    const pendingAction = {
+      type: types.GET_IOU_PENDING,
+    };
+    expect(reducer({}, pendingAction)).toEqual(messages.Loading);
+  });
+
   it('should handle MOVE_PENDING', () => {
     const pendingAction = {
       type: types.MOVE_PENDING,
@@ -66,6 +73,13 @@ describe('message reducer fulfilled actions', () => {
   it('should handle GET_GAME_STATE_FULFILLED', () => {
     const fulfilledAction = {
       type: types.GET_GAME_STATE_FULFILLED,
+    };
+    expect(reducer({}, fulfilledAction)).toEqual(initialState);
+  });
+
+  it('should handle GET_IOU_FULFILLED', () => {
+    const fulfilledAction = {
+      type: types.GET_IOU_FULFILLED,
     };
     expect(reducer({}, fulfilledAction)).toEqual(initialState);
   });
@@ -106,6 +120,16 @@ describe('message reducer rejected actions', () => {
     };
     const expectedOutput = merge({}, messages.GetGameStateRejected);
     expectedOutput.value = [messages.GetGameStateRejected.value, payloadError.message].join(' ');
+    expect(reducer({}, rejectedAction)).toEqual(expectedOutput);
+  });
+
+  it('should handle GET_IOU_REJECTED', () => {
+    const rejectedAction = {
+      type: types.GET_IOU_REJECTED,
+      payload: payloadError,
+    };
+    const expectedOutput = merge({}, messages.GetIOURejected);
+    expectedOutput.value = [messages.GetIOURejected.value, payloadError.message].join(' ');
     expect(reducer({}, rejectedAction)).toEqual(expectedOutput);
   });
 
