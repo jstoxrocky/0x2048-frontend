@@ -11,11 +11,13 @@ export const initialState = {
 export default (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {
+    case types.GET_IOU_PENDING:
     case types.GET_GAME_STATE_PENDING:
     case types.GET_ARCADE_STATE_PENDING:
     case types.UPLOAD_PENDING: {
       return merge({}, state, messages.Loading);
     }
+    case types.GET_IOU_FULFILLED:
     case types.GET_GAME_STATE_FULFILLED:
     case types.MOVE_FULFILLED:
     case types.GET_ARCADE_STATE_FULFILLED: {
@@ -23,6 +25,11 @@ export default (state = initialState, action) => {
     }
     case types.UPLOAD_FULFILLED: {
       return merge({}, state, messages.UploadScoreSuccess);
+    }
+    case types.GET_IOU_REJECTED: {
+      const newState = merge({}, state, messages.GetIOURejected);
+      newState.value = [newState.value, action.payload.message].join(' ');
+      return newState;
     }
     case types.GET_GAME_STATE_REJECTED: {
       const newState = merge({}, state, messages.GetGameStateRejected);

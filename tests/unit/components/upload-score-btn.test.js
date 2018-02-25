@@ -1,7 +1,7 @@
 import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { PureUploadScoreBtn } from '../../../src/components/contract-btns/upload-score/upload-score-btn';
+import { PureUploadScoreBtn } from '../../../src/components/btns/upload-score/upload-score-btn';
 import * as uploadScore from '../../../src/actions/upload-score';
 import { initialState } from '../../../src/reducers/game-state-reducer';
 
