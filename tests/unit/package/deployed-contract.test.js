@@ -6,6 +6,8 @@ import * as test from '../../testnet-config';
 import * as accounts from '../../accounts';
 import { abi, data } from '../../abi';
 
+jest.setTimeout(10000);
+
 describe('deployed contract', () => {
   beforeAll(async () => {
     web3Provisioned.web3 = new Web3();
