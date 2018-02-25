@@ -54,10 +54,10 @@ describe('endpoints', () => {
     expect(output).toEqual(expected);
   });
 
-  it('getIOU should succeed', async () => {
+  it('newGame should succeed', async () => {
     const expected = 1337;
     api.getIOU.returns(Promise.resolve(expected));
-    const output = await endpoints.getIOU();
+    const output = await endpoints.newGame();
     expect(output).toEqual(expected);
   });
 
@@ -80,7 +80,7 @@ describe('endpoints', () => {
     web3Provisioned.web3 = undefined;
     await expect(endpoints.move()).rejects.toEqual(exceptions.NoWeb3Provider);
     await expect(endpoints.postIOU()).rejects.toEqual(exceptions.NoWeb3Provider);
-    await expect(endpoints.getIOU()).rejects.toEqual(exceptions.NoWeb3Provider);
+    await expect(endpoints.newGame()).rejects.toEqual(exceptions.NoWeb3Provider);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.NoWeb3Provider);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.NoWeb3Provider);
     web3Provisioned.web3 = new Web3();
@@ -93,7 +93,7 @@ describe('endpoints', () => {
     web3Provisioned.web3.setProvider(provider);
     await expect(endpoints.move()).rejects.toEqual(exceptions.NoAccountsAvailable);
     await expect(endpoints.postIOU()).rejects.toEqual(exceptions.NoAccountsAvailable);
-    await expect(endpoints.getIOU()).rejects.toEqual(exceptions.NoAccountsAvailable);
+    await expect(endpoints.newGame()).rejects.toEqual(exceptions.NoAccountsAvailable);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.NoAccountsAvailable);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.NoAccountsAvailable);
   });
@@ -104,7 +104,7 @@ describe('endpoints', () => {
     web3Provisioned.web3.setProvider(provider);
     await expect(endpoints.move()).rejects.toEqual(exceptions.WrongNetwork);
     await expect(endpoints.postIOU()).rejects.toEqual(exceptions.WrongNetwork);
-    await expect(endpoints.getIOU()).rejects.toEqual(exceptions.WrongNetwork);
+    await expect(endpoints.newGame()).rejects.toEqual(exceptions.WrongNetwork);
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.WrongNetwork);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.WrongNetwork);
   });
