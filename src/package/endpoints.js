@@ -2,6 +2,7 @@ import * as api from './api';
 import * as Contract from './contract';
 import { web3 } from './web3-provisioned';
 import { connectedToEVM } from './requirements';
+import createIOU from './iou';
 
 export const move = async (direction) => {
   await connectedToEVM();
@@ -26,7 +27,9 @@ export const newGame = async () => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
   const value = await api.getIOU(user);
-  return value;
+  const nextValue = value + 1;
+  const iou = await createIOU(user, nextValue);
+  return iou;
 };
 
 export const getArcadeState = async () => {

@@ -2,6 +2,7 @@ import sinon from 'sinon';
 import Web3 from 'web3/packages/web3';
 import ganache from 'ganache-core';
 import * as api from '../../../src/package/api';
+import * as iou from '../../../src/package/iou';
 import * as exceptions from '../../../src/package/exceptions';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as endpoints from '../../../src/package/endpoints';
@@ -20,6 +21,7 @@ describe('endpoints', () => {
     sinon.stub(api, 'gameState');
     sinon.stub(api, 'postIOU');
     sinon.stub(api, 'getIOU');
+    sinon.stub(iou, 'default');
     sinon.stub(Contract, 'getArcadeState');
     sinon.stub(Contract, 'uploadScore');
   });
@@ -29,6 +31,7 @@ describe('endpoints', () => {
     api.gameState.restore();
     api.postIOU.restore();
     api.getIOU.restore();
+    iou.default.restore();
     Contract.getArcadeState.restore();
     Contract.uploadScore.restore();
   });
@@ -57,6 +60,7 @@ describe('endpoints', () => {
   it('newGame should succeed', async () => {
     const expected = 1337;
     api.getIOU.returns(Promise.resolve(expected));
+    iou.default.returns(Promise.resolve(expected));
     const output = await endpoints.newGame();
     expect(output).toEqual(expected);
   });
