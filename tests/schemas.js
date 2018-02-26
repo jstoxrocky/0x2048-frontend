@@ -6,8 +6,14 @@ export const iouValueSchema = {
   },
 };
 
-export const signatureSchema = {
-  id: '/signatureSchema',
+export const simpleSignatureSchema = {
+  id: '/simpleSignatureSchema',
+  type: 'string',
+  required: true,
+};
+
+export const fullSignatureSchema = {
+  id: '/fullSignatureSchema',
   type: 'object',
   properties: {
     message: { type: 'string', required: true },
@@ -15,8 +21,9 @@ export const signatureSchema = {
     v: { type: 'number', required: true },
     r: { type: 'string', required: true },
     s: { type: 'string', required: true },
-    signature: { type: 'string', required: true },
+    signature: { $ref: '/simpleSignatureSchema' },
   },
+  required: true,
 };
 
 export const moveSchema = {
@@ -41,6 +48,16 @@ export const moveSchema = {
       minItems: 4,
       maxItems: 4,
     },
-    signature: { $ref: '/signatureSchema' },
+    signature: { $ref: '/fullSignatureSchema' },
+  },
+};
+
+export const IOUSchema = {
+  id: '/IOUSchema',
+  type: 'object',
+  properties: {
+    user: { type: 'string', required: true },
+    value: { type: 'number', required: true },
+    signature: { $ref: '/simpleSignatureSchema' },
   },
 };

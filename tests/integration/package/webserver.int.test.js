@@ -3,7 +3,7 @@ import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as api from '../../../src/package/base-api';
 import * as accounts from '../../accounts';
 import sendIOU from '../sendIOU';
-import { signatureSchema, moveSchema, iouValueSchema } from '../../schemas';
+import * as schemas from '../../schemas';
 
 describe('webserver', async () => {
   beforeAll(async () => {
@@ -13,8 +13,9 @@ describe('webserver', async () => {
   it('/gamestate data should validate', async () => {
     const payload = await api.gameState();
     const validator = new jsonschema.Validator();
-    validator.addSchema(signatureSchema, '/signatureSchema');
-    const result = validator.validate(payload, moveSchema);
+    validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
+    validator.addSchema(schemas.fullSignatureSchema, '/fullSignatureSchema');
+    const result = validator.validate(payload, schemas.moveSchema);
     expect(result.errors).toHaveLength(0);
   });
 
@@ -22,15 +23,16 @@ describe('webserver', async () => {
     const direction = 1;
     const payload = await api.move(accounts.user.address, direction);
     const validator = new jsonschema.Validator();
-    validator.addSchema(signatureSchema, '/signatureSchema');
-    const result = validator.validate(payload, moveSchema);
+    validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
+    validator.addSchema(schemas.fullSignatureSchema, '/fullSignatureSchema');
+    const result = validator.validate(payload, schemas.moveSchema);
     expect(result.errors).toHaveLength(0);
   });
 
   it('GET /iou data should validate', async () => {
     const payload = await api.getIOU(accounts.user.address);
     const validator = new jsonschema.Validator();
-    const result = validator.validate(payload, iouValueSchema);
+    const result = validator.validate(payload, schemas.iouValueSchema);
     expect(result.errors).toHaveLength(0);
   });
 

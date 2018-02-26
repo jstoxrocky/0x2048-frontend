@@ -9,10 +9,6 @@ class NewGameBtn extends React.Component {
   }
 
   handleClick(e) {
-    // (1) Fetch next IOU from server (GET /iou)
-    // (2) Prompt user to sign next IOU
-    // (3) Submit IOU (POST /iou)
-    // (4) Start new game (POST /move)
     e.preventDefault();
     this.props.dispatch(newGame());
   }
