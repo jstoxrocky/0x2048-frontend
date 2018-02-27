@@ -26,10 +26,11 @@ export const newGame = async () => {
   // (4) Start new game (POST /move)
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
-  const value = await api.getIOU(user);
+  const { value } = await api.getIOU(user);
   const nextValue = value + 1;
   const iou = await createIOU(user, nextValue);
-  return iou;
+  const payload = await api.postIOU(iou);
+  return payload;
 };
 
 export const getArcadeState = async () => {
