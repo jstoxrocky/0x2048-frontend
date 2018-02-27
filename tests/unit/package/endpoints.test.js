@@ -61,6 +61,7 @@ describe('endpoints', () => {
     const expected = 1337;
     api.getIOU.returns(Promise.resolve(expected));
     iou.default.returns(Promise.resolve(expected));
+    api.postIOU.returns(Promise.resolve(expected));
     const output = await endpoints.newGame();
     expect(output).toEqual(expected);
   });
