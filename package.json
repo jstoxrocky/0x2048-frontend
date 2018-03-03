@@ -24,6 +24,8 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.0.0",
     "css-loader": "^0.28.9",
+    "ethereumjs-abi": "^0.6.5",
+    "ethereumjs-util": "^5.1.5",
     "jsonschema": "^1.2.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",

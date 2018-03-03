@@ -1,15 +1,27 @@
+import signTypedData from './signTypedData';
 import * as deployedContract from '../../src/package/deployed-contract';
-import { web3 } from './web3-provisioned';
 
-const createIOU = async (user, value) => {
-  const msg = web3.utils.soliditySha3(
-    { type: 'address', value: deployedContract.accountAddress },
-    { type: 'address', value: user },
-    { type: 'uint256', value },
-  );
-  const signature = await web3.eth.sign(msg, user);
+const iou = async (user, value) => {
+  const msgParams = [
+    {
+      type: 'address',
+      name: 'destination',
+      value: deployedContract.accountAddress,
+    },
+    {
+      type: 'address',
+      name: 'user',
+      value: user,
+    },
+    {
+      type: 'uint256',
+      name: 'value',
+      value,
+    },
+  ];
+  const signature = await signTypedData(msgParams, user);
   const payload = { signature, user, value };
   return payload;
 };
 
-export default createIOU;
+export default iou;

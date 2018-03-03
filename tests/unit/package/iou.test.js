@@ -1,21 +1,24 @@
-import Web3 from 'web3/packages/web3';
-import ganache from 'ganache-core';
+import sinon from 'sinon';
 import jsonschema from 'jsonschema';
-import * as test from '../../testnet-config';
 import * as accounts from '../../accounts';
-import * as web3Provisioned from '../../../src/package/web3-provisioned';
-import createIOU from '../../../src/package/iou';
+import * as signing from '../../../src/package/signTypedData';
+import iou from '../../../src/package/iou';
 import * as schemas from '../../schemas';
 
-describe('iou object', () => {
-  beforeAll(async () => {
-    web3Provisioned.web3 = new Web3();
-    web3Provisioned.web3.setProvider(ganache.provider(test.options));
+describe('iou', () => {
+  beforeEach(() => {
+    sinon.stub(signing, 'default');
   });
 
-  it('should validate', async () => {
-    const value = 20;
-    const payload = await createIOU(accounts.user.address, value);
+  afterEach(() => {
+    signing.default.restore();
+  });
+
+  it('should validate schema', async () => {
+    const signature = '0xd3cacf1d6fef0b84a21253526daed7c578b67361eaf52acb5b82c8ddc071bc140aa92fe3aa2e2053c2b035e528d82a464c67ef26c12b6f7d78b197bd29bc4c551b';
+    signing.default.returns(Promise.resolve(signature));
+    const value = 17;
+    const payload = await iou(accounts.user.address, value);
     const validator = new jsonschema.Validator();
     validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
     const result = validator.validate(payload, schemas.IOUSchema);
