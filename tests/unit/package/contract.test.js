@@ -108,5 +108,11 @@ describe('contract', () => {
       await expect(Contract.handledUploadScore()).rejects.toEqual(exceptions.MetamaskError);
     });
   });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
+  });
 });
 

@@ -28,4 +28,10 @@ describe('deployed contract', () => {
     const contractOwner = await deployedContract.contract.methods.owner().call();
     expect(contractOwner).toBe(accounts.owner.address);
   });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
+  });
 });

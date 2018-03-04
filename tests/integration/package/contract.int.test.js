@@ -22,14 +22,14 @@ describe('deployed contract', () => {
     expect(contractCode).not.toBe('0x0');
   });
 
-  it('owner should be from envvar', async () => {
+  it('should have owner equal to envvar', async () => {
     const contractOwner = await deployedContract.contract.methods.owner().call();
     const ownerPrivateKey = process.env.PRIVATE_KEY_0x2048;
     const owner = web3Provisioned.web3.eth.accounts.privateKeyToAccount(ownerPrivateKey);
     expect(contractOwner).toBe(owner.address);
   });
 
-  it('round should be > 0', async () => {
+  it('should have a round > 0', async () => {
     const round = await deployedContract.contract.methods.round().call().then(parseInt);
     expect(round).toBeGreaterThan(0);
   });
@@ -42,5 +42,11 @@ describe('deployed contract', () => {
   it('percentFee should be 10', async () => {
     const percentFee = await deployedContract.contract.methods.percentFee().call().then(parseInt);
     expect(percentFee).toBe(10);
+  });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
   });
 });

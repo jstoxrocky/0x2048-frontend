@@ -38,6 +38,12 @@ describe('require', () => {
     web3Provisioned.web3.setProvider(ganache.provider({ total_accounts: 0 }));
     await expect(accountsAvailable()).rejects.toEqual(exceptions.NoAccountsAvailable);
   });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
+  });
 });
 
 describe('requireCorrectNetwork', () => {
@@ -63,6 +69,12 @@ describe('requireCorrectNetwork', () => {
   it('should throw WrongNetwork with wrong network', async () => {
     web3Provisioned.web3.setProvider(ganache.provider({ network_id: 31337 }));
     await expect(correctNetwork()).rejects.toEqual(exceptions.WrongNetwork);
+  });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
   });
 });
 
@@ -92,5 +104,11 @@ describe('connectedToEVM', () => {
   it('should succeed', async () => {
     const output = await connectedToEVM();
     expect(output).toBe(true);
+  });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
   });
 });

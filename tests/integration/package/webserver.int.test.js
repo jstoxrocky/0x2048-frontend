@@ -46,4 +46,10 @@ describe('webserver', async () => {
       .web3.eth.accounts.recover(signature.messageHash, signature.signature, preFixed);
     expect(webserverSigner).toBe(owner.address);
   });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
+  });
 });
