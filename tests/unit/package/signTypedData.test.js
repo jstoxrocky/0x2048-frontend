@@ -181,4 +181,10 @@ describe('signTypedData', () => {
     const signer = web3Provisioned.web3.eth.accounts.recover(hexHash, signature, true);
     expect(signer).toBe(accounts.user.address);
   });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
+  });
 });

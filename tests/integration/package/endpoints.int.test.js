@@ -43,4 +43,10 @@ describe('webserver', async () => {
     const { success } = await endpoints.newGame();
     expect(success).toBe(true);
   });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
+  });
 });
