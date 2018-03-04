@@ -113,4 +113,10 @@ describe('endpoints', () => {
     await expect(endpoints.getArcadeState()).rejects.toEqual(exceptions.WrongNetwork);
     await expect(endpoints.uploadScore()).rejects.toEqual(exceptions.WrongNetwork);
   });
+
+  afterAll('shutdown', (done) => {
+    const provider = web3Provisioned.web3._provider; // eslint-disable-line no-underscore-dangle
+    web3Provisioned.web3.setProvider();
+    provider.close(done);
+  });
 });
