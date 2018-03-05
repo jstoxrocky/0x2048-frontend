@@ -29,8 +29,8 @@ describe('webserver', async () => {
     expect(result.errors).toHaveLength(0);
   });
 
-  it('GET /iou data should validate', async () => {
-    const payload = await api.getIOU(accounts.user.address);
+  it('GET /nonce data should validate', async () => {
+    const payload = await api.nonce(accounts.user.address);
     const validator = new jsonschema.Validator();
     const result = validator.validate(payload, schemas.iouValueSchema);
     expect(result.errors).toHaveLength(0);

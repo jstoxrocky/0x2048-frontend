@@ -40,5 +40,5 @@ web3Provisioned.web3.setProvider(provider);
 export default async () => {
   const value = 100;
   const iou = await createIOU(accounts.user.address, value);
-  await api.postIOU(iou);
+  await api.iou(iou);
 };
