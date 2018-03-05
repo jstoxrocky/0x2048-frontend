@@ -5,8 +5,8 @@ const iou = async (user, value) => {
   const msgParams = [
     {
       type: 'string',
-      name: 'Disclaimer',
-      value: `This signature is for intended for use with 0x2048 at Rinkeby address ${deployedContract.accountAddress}. If you are not interacting with 0x2048 and seeing this message, someone may be attempting forge your signature.`,
+      name: 'This signature is for intended for use with 0x2048 at the below Rinkeby address. If you are seeing this message and not interacting with 0x2048, someone may be attempting forge your signature',
+      value: deployedContract.accountAddress,
     },
     {
       type: 'address',
