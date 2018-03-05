@@ -115,7 +115,6 @@ describe('moveSchema', () => {
     const instance = {
       score: 0,
       board: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-      gameover: false,
       signature: {
         message: '0x',
         messageHash: '0x',
@@ -135,14 +134,12 @@ describe('moveSchema', () => {
   [
     ['score', ''],
     ['board', 0],
-    ['gameover', 0],
     ['signature', 0],
   ].forEach(([key, value]) => {
     it(`should fail to validate with wrong datatype: ${key}`, async () => {
       const instance = {
         score: 0,
         board: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-        gameover: false,
         signature: {
           message: '0x',
           messageHash: '0x',
@@ -164,14 +161,12 @@ describe('moveSchema', () => {
   [
     ['score'],
     ['board'],
-    ['gameover'],
     ['signature'],
   ].forEach(([key]) => {
     it(`should fail to validate with missing data: ${key}`, async () => {
       const instance = {
         score: 0,
         board: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-        gameover: false,
         signature: {
           message: '0x',
           messageHash: '0x',
