@@ -15,6 +15,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case types.GET_GAME_STATE_FULFILLED:
     case types.MOVE_FULFILLED:
+    case types.GET_NEW_GAME_FULFILLED:
       return merge({}, state, action.payload);
     default:
       return state;
