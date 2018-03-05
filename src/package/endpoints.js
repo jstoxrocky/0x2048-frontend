@@ -14,9 +14,9 @@ export const gameState = async () => (
   api.gameState()
 );
 
-export const postIOU = async (signature) => {
+export const iou = async (signature) => {
   await connectedToEVM();
-  return api.postIOU(signature);
+  return api.iou(signature);
 };
 
 export const newGame = async () => {
@@ -26,10 +26,10 @@ export const newGame = async () => {
   // (4) Start new game (POST /move)
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
-  const { value } = await api.getIOU(user);
+  const { value } = await api.nonce(user);
   const nextValue = value + 1;
-  const iou = await createIOU(user, nextValue);
-  const payload = await api.postIOU(iou);
+  const signedIOU = await createIOU(user, nextValue);
+  const payload = await api.iou(signedIOU);
   return payload;
 };
 

@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import * as exceptions from '../../../src/package/exceptions';
 import * as baseApi from '../../../src/package/base-api';
-import { move, gameState, postIOU, getIOU } from '../../../src/package/api';
+import { move, gameState, iou, nonce } from '../../../src/package/api';
 
 describe('handle gameState', () => {
   beforeEach(() => {
@@ -47,46 +47,46 @@ describe('handle move', () => {
   });
 });
 
-describe('handle postIOU', () => {
+describe('handle iou', () => {
   beforeEach(() => {
-    sinon.stub(baseApi, 'postIOU');
+    sinon.stub(baseApi, 'iou');
   });
 
   afterEach(() => {
-    baseApi.postIOU.restore();
+    baseApi.iou.restore();
   });
 
   it('should throw ServerError', async () => {
-    baseApi.postIOU.returns(Promise.reject());
-    await expect(postIOU()).rejects.toEqual(exceptions.ServerError);
+    baseApi.iou.returns(Promise.reject());
+    await expect(iou()).rejects.toEqual(exceptions.ServerError);
   });
 
   it('should succeed', async () => {
     const expected = 4;
-    baseApi.postIOU.returns(Promise.resolve(expected));
-    const output = await postIOU();
+    baseApi.iou.returns(Promise.resolve(expected));
+    const output = await iou();
     expect(output).toBe(expected);
   });
 });
 
-describe('handle getIOU', () => {
+describe('handle nonce', () => {
   beforeEach(() => {
-    sinon.stub(baseApi, 'getIOU');
+    sinon.stub(baseApi, 'nonce');
   });
 
   afterEach(() => {
-    baseApi.getIOU.restore();
+    baseApi.nonce.restore();
   });
 
   it('should throw ServerError', async () => {
-    baseApi.getIOU.returns(Promise.reject());
-    await expect(getIOU()).rejects.toEqual(exceptions.ServerError);
+    baseApi.nonce.returns(Promise.reject());
+    await expect(nonce()).rejects.toEqual(exceptions.ServerError);
   });
 
   it('should succeed', async () => {
     const expected = 4;
-    baseApi.getIOU.returns(Promise.resolve(expected));
-    const output = await getIOU();
+    baseApi.nonce.returns(Promise.resolve(expected));
+    const output = await nonce();
     expect(output).toBe(expected);
   });
 });

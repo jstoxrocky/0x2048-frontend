@@ -14,12 +14,12 @@ export const move = (user, direction) => (
   api.post('/move', { user, direction })
 );
 
-export const postIOU = signature => (
+export const iou = signature => (
   api.post('/iou', signature)
 );
 
-export const getIOU = user => (
-  api.get('/iou', {
+export const nonce = user => (
+  api.get('/nonce', {
     params: {
       user,
     },
