@@ -19,9 +19,13 @@ export default (state = initialState, action) => {
     }
     case types.GET_NEW_GAME_FULFILLED:
     case types.GET_GAME_STATE_FULFILLED:
-    case types.MOVE_FULFILLED:
     case types.GET_ARCADE_STATE_FULFILLED: {
       return merge({}, state, initialState);
+    }
+    case types.MOVE_FULFILLED: {
+      const msg = action.payload.gameover ? messages.GameOver : initialState;
+      const newState = merge({}, state, msg);
+      return newState;
     }
     case types.UPLOAD_FULFILLED: {
       return merge({}, state, messages.UploadScoreSuccess);
