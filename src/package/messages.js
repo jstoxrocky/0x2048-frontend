@@ -29,6 +29,7 @@ class Success extends Visible {
 }
 
 export const Loading = new Info('Loading...');
+export const GameOver = new Danger('Gameover!');
 export const GetNewGameRejected = new Danger('Fetching the most recent IOU was rejected.');
 export const GetGameStateRejected = new Danger('Fetching the game-state was rejected.');
 export const MoveRejected = new Danger('Your move was rejected.');

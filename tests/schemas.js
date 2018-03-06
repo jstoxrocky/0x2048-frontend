@@ -31,6 +31,7 @@ export const moveSchema = {
   type: 'object',
   properties: {
     score: { type: 'number', required: true },
+    gameover: { type: 'boolean', required: true },
     board: {
       type: 'array',
       required: true,
