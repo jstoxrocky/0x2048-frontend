@@ -84,11 +84,20 @@ describe('message reducer fulfilled actions', () => {
     expect(reducer({}, fulfilledAction)).toEqual(initialState);
   });
 
-  it('should handle MOVE_FULFILLED', () => {
+  it('should handle MOVE_FULFILLED on not gameover', () => {
     const fulfilledAction = {
       type: types.MOVE_FULFILLED,
+      payload: { gameover: false },
     };
     expect(reducer({}, fulfilledAction)).toEqual(initialState);
+  });
+
+  it('should handle MOVE_FULFILLED on gameover', () => {
+    const fulfilledAction = {
+      type: types.MOVE_FULFILLED,
+      payload: { gameover: true },
+    };
+    expect(reducer({}, fulfilledAction)).toEqual(messages.GameOver);
   });
 });
 
