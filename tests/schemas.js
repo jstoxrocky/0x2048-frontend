@@ -1,8 +1,25 @@
-export const iouValueSchema = {
-  id: '/iouValueSchema',
+export const nonceSchema = {
+  id: '/nonceSchema',
   type: 'object',
   properties: {
-    value: { type: 'number', required: true },
+    nonce: { type: 'number', required: true },
+  },
+};
+
+export const userSchema = {
+  id: '/userSchema',
+  type: 'object',
+  properties: {
+    user: { type: 'string', required: true },
+  },
+};
+
+export const moveSchema = {
+  id: '/moveSchema',
+  type: 'object',
+  properties: {
+    user: { type: 'string', required: true },
+    direction: { type: 'number', required: true },
   },
 };
 
@@ -26,9 +43,18 @@ export const fullSignatureSchema = {
   required: true,
 };
 
-export const moveSchema = {
-  id: '/moveSchema',
+export const IOUSchema = {
+  id: '/IOUSchema',
   type: 'object',
+  properties: {
+    user: { type: 'string', required: true },
+    nonce: { type: 'number', required: true },
+    signature: { $ref: '/simpleSignatureSchema' },
+  },
+};
+
+export const signedGamestateSchema = {
+  id: '/signedGamestateSchema',
   properties: {
     score: { type: 'number', required: true },
     gameover: { type: 'boolean', required: true },
@@ -49,15 +75,5 @@ export const moveSchema = {
       maxItems: 4,
     },
     signature: { $ref: '/fullSignatureSchema' },
-  },
-};
-
-export const IOUSchema = {
-  id: '/IOUSchema',
-  type: 'object',
-  properties: {
-    user: { type: 'string', required: true },
-    value: { type: 'number', required: true },
-    signature: { $ref: '/simpleSignatureSchema' },
   },
 };

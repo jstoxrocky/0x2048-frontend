@@ -1,6 +1,7 @@
 import Web3 from 'web3/packages/web3';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contract';
+import addressJson from '../../../integration-tests-json/constants/address.json';
 
 describe('deployed contract', () => {
   beforeAll(() => {
@@ -22,11 +23,10 @@ describe('deployed contract', () => {
     expect(contractCode).not.toBe('0x0');
   });
 
-  it('should have owner equal to envvar', async () => {
+  it('should have owner equal to integration-json data', async () => {
     const contractOwner = await deployedContract.contract.methods.owner().call();
-    const ownerPrivateKey = process.env.PRIVATE_KEY_0x2048;
-    const owner = web3Provisioned.web3.eth.accounts.privateKeyToAccount(ownerPrivateKey);
-    expect(contractOwner).toBe(owner.address);
+    const ownerAddress = addressJson.owner;
+    expect(contractOwner).toBe(ownerAddress);
   });
 
   it('should have a round > 0', async () => {

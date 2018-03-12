@@ -38,7 +38,8 @@ const provider = ganache.provider(test.options);
 web3Provisioned.web3.setProvider(provider);
 
 export default async () => {
-  const value = 100;
-  const iou = await createIOU(accounts.user.address, value);
+  const { nonce } = await api.nonce(accounts.user.address);
+  const nextNonce = nonce + 1;
+  const iou = await createIOU(accounts.user.address, nextNonce);
   await api.iou(iou);
 };
