@@ -1,7 +1,7 @@
 import signTypedData from './signTypedData';
 import * as deployedContract from '../../src/package/deployed-contract';
 
-const iou = async (user, value) => {
+const iou = async (user, nonce) => {
   const msgParams = [
     {
       type: 'string',
@@ -15,12 +15,12 @@ const iou = async (user, value) => {
     },
     {
       type: 'uint256',
-      name: 'value',
-      value,
+      name: 'nonce',
+      value: nonce,
     },
   ];
   const signature = await signTypedData(msgParams, user);
-  const payload = { signature, user, value };
+  const payload = { signature, user, nonce };
   return payload;
 };
 

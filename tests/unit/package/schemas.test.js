@@ -1,28 +1,54 @@
 import jsonschema from 'jsonschema';
 import * as schemas from '../../schemas';
 
-describe('iouValueSchema', () => {
+describe('nonceSchema', () => {
   it('should validate', async () => {
-    const value = 17;
-    const instance = { value };
+    const nonce = 17;
+    const instance = { nonce };
     const validator = new jsonschema.Validator();
-    const result = validator.validate(instance, schemas.iouValueSchema);
+    const result = validator.validate(instance, schemas.nonceSchema);
     expect(result.errors).toHaveLength(0);
   });
 
   it('should fail to validate string', async () => {
-    const value = '';
-    const instance = { value };
+    const nonce = '';
+    const instance = { nonce };
     const validator = new jsonschema.Validator();
-    const result = validator.validate(instance, schemas.iouValueSchema);
+    const result = validator.validate(instance, schemas.nonceSchema);
     expect(result.errors).toHaveLength(1);
   });
 
   it('should fail to validate wrong key', async () => {
-    const otherValue = 17;
-    const instance = { otherValue };
+    const value = 17;
+    const instance = { value };
     const validator = new jsonschema.Validator();
-    const result = validator.validate(instance, schemas.iouValueSchema);
+    const result = validator.validate(instance, schemas.nonceSchema);
+    expect(result.errors).toHaveLength(1);
+  });
+});
+
+describe('userSchema', () => {
+  it('should validate', async () => {
+    const user = '0x0';
+    const instance = { user };
+    const validator = new jsonschema.Validator();
+    const result = validator.validate(instance, schemas.userSchema);
+    expect(result.errors).toHaveLength(0);
+  });
+
+  it('should fail to validate number', async () => {
+    const user = 0;
+    const instance = { user };
+    const validator = new jsonschema.Validator();
+    const result = validator.validate(instance, schemas.userSchema);
+    expect(result.errors).toHaveLength(1);
+  });
+
+  it('should fail to validate wrong key', async () => {
+    const value = '0x0';
+    const instance = { value };
+    const validator = new jsonschema.Validator();
+    const result = validator.validate(instance, schemas.userSchema);
     expect(result.errors).toHaveLength(1);
   });
 });
@@ -110,7 +136,7 @@ describe('fullSignatureSchema', () => {
   });
 });
 
-describe('moveSchema', () => {
+describe('signedGamestateSchema', () => {
   it('should validate', async () => {
     const instance = {
       score: 0,
@@ -128,7 +154,8 @@ describe('moveSchema', () => {
     const validator = new jsonschema.Validator();
     validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
     validator.addSchema(schemas.fullSignatureSchema, '/fullSignatureSchema');
-    const result = validator.validate(instance, schemas.moveSchema);
+    validator.addSchema(schemas.gamestateSchema, '/gamestateSchema');
+    const result = validator.validate(instance, schemas.signedGamestateSchema);
     expect(result.errors).toHaveLength(0);
   });
 
@@ -152,11 +179,13 @@ describe('moveSchema', () => {
           signature: '0x',
         },
       };
+
       instance[key] = value;
       const validator = new jsonschema.Validator();
       validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
       validator.addSchema(schemas.fullSignatureSchema, '/fullSignatureSchema');
-      const result = validator.validate(instance, schemas.moveSchema);
+      validator.addSchema(schemas.gamestateSchema, '/gamestateSchema');
+      const result = validator.validate(instance, schemas.signedGamestateSchema);
       expect(result.errors).toHaveLength(1);
     });
   });
@@ -185,7 +214,8 @@ describe('moveSchema', () => {
       const validator = new jsonschema.Validator();
       validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
       validator.addSchema(schemas.fullSignatureSchema, '/fullSignatureSchema');
-      const result = validator.validate(instance, schemas.moveSchema);
+      validator.addSchema(schemas.gamestateSchema, '/gamestateSchema');
+      const result = validator.validate(instance, schemas.signedGamestateSchema);
       expect(result.errors).toHaveLength(1);
     });
   });
@@ -195,7 +225,7 @@ describe('IOUSchema', () => {
   it('should validate', async () => {
     const instance = {
       user: '0x',
-      value: 0,
+      nonce: 0,
       signature: '0x',
     };
     const validator = new jsonschema.Validator();
@@ -206,13 +236,13 @@ describe('IOUSchema', () => {
 
   [
     ['user', 0],
-    ['value', ''],
+    ['nonce', ''],
     ['signature', 0],
   ].forEach(([key, value]) => {
     it(`should fail to validate with wrong datatype: ${key}`, async () => {
       const instance = {
         user: '0x',
-        value: 0,
+        nonce: 0,
         signature: '0x',
       };
       instance[key] = value;
@@ -225,19 +255,63 @@ describe('IOUSchema', () => {
 
   [
     ['user'],
-    ['value'],
+    ['nonce'],
     ['signature'],
   ].forEach(([key]) => {
     it(`should fail to validate with missing data: ${key}`, async () => {
       const instance = {
         user: '0x',
-        value: 0,
+        nonce: 0,
         signature: '0x',
       };
       delete instance[key];
       const validator = new jsonschema.Validator();
       validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
       const result = validator.validate(instance, schemas.IOUSchema);
+      expect(result.errors).toHaveLength(1);
+    });
+  });
+});
+
+describe('moveSchema', () => {
+  it('should validate', async () => {
+    const instance = {
+      user: '0x0',
+      direction: 1,
+    };
+    const validator = new jsonschema.Validator();
+    const result = validator.validate(instance, schemas.moveSchema);
+    expect(result.errors).toHaveLength(0);
+  });
+
+  [
+    ['user', 0],
+    ['direction', ''],
+  ].forEach(([key, value]) => {
+    it(`should fail to validate with wrong datatype: ${key}`, async () => {
+      const instance = {
+        user: '0x0',
+        direction: 1,
+      };
+      instance[key] = value;
+      const validator = new jsonschema.Validator();
+      const result = validator.validate(instance, schemas.moveSchema);
+      expect(result.errors).toHaveLength(1);
+    });
+  });
+
+  [
+    ['user'],
+    ['direction'],
+  ].forEach(([key]) => {
+    it(`should fail to validate with missing data: ${key}`, async () => {
+      const instance = {
+        user: '0x0',
+        direction: 1,
+      };
+      delete instance[key];
+      const validator = new jsonschema.Validator();
+      const result = validator.validate(instance, schemas.moveSchema);
       expect(result.errors).toHaveLength(1);
     });
   });
