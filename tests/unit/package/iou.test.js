@@ -17,8 +17,8 @@ describe('iou', () => {
   it('should validate schema', async () => {
     const signature = '0xd3cacf1d6fef0b84a21253526daed7c578b67361eaf52acb5b82c8ddc071bc140aa92fe3aa2e2053c2b035e528d82a464c67ef26c12b6f7d78b197bd29bc4c551b';
     signing.default.returns(Promise.resolve(signature));
-    const value = 17;
-    const payload = await iou(accounts.user.address, value);
+    const nonce = 17;
+    const payload = await iou(accounts.user.address, nonce);
     const validator = new jsonschema.Validator();
     validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
     const result = validator.validate(payload, schemas.IOUSchema);
