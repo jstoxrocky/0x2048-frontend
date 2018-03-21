@@ -17,17 +17,17 @@ describe('base-arcade-contract', () => {
       { data: arcadeBytecode },
     );
     const contract = await undeployedContract.deploy().send(test.deploymentOptions);
-    deployedContract.contract = contract;
+    deployedContract.arcadeContract = contract;
   });
 
   it('should have code', async () => {
     const contractCode = await web3Provisioned
-      .web3.eth.getCode(deployedContract.contract._address); // eslint-disable-line no-underscore-dangle, max-len
+      .web3.eth.getCode(deployedContract.arcadeContract._address); // eslint-disable-line no-underscore-dangle, max-len
     expect(contractCode).not.toBe('0x0');
   });
 
   it('owner should be test owner', async () => {
-    const contractOwner = await deployedContract.contract.methods.owner().call();
+    const contractOwner = await deployedContract.arcadeContract.methods.owner().call();
     expect(contractOwner).toBe(accounts.owner.address);
   });
 

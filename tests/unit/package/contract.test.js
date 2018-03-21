@@ -22,7 +22,7 @@ describe('contract', () => {
       { data: arcadeBytecode },
     );
     const contract = await undeployedContract.deploy().send(test.deploymentOptions);
-    deployedContract.contract = contract;
+    deployedContract.arcadeContract = contract;
   });
 
   it('should have return initial state from getArcadeState', async () => {
