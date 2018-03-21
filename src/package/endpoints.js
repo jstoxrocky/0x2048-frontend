@@ -1,5 +1,5 @@
 import * as api from './api';
-import * as Contract from './contract';
+import * as arcadeContract from './arcade-contract';
 import { web3 } from './web3-provisioned';
 import { connectedToEVM } from './requirements';
 import createIOU from './iou';
@@ -31,12 +31,12 @@ export const newGame = async () => {
 
 export const getArcadeState = async () => {
   await connectedToEVM();
-  const [user] = await web3.eth.getAccounts();
-  return Contract.getArcadeState(user);
+  const state = await arcadeContract.getArcadeState();
+  return state;
 };
 
-export const uploadScore = async (signature, score) => {
+export const uploadScore = async (messageHash, v, r, s, score) => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
-  return Contract.uploadScore(signature, user, score);
+  return arcadeContract.uploadScore(messageHash, v, r, s, user, score);
 };

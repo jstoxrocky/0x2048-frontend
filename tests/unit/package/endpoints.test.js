@@ -7,7 +7,7 @@ import * as exceptions from '../../../src/package/exceptions';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as endpoints from '../../../src/package/endpoints';
 import * as test from '../../testnet-config';
-import * as Contract from '../../../src/package/contract';
+import * as arcadeContract from '../../../src/package/arcade-contract';
 
 describe('endpoints', () => {
   beforeAll(async () => {
@@ -22,8 +22,8 @@ describe('endpoints', () => {
     sinon.stub(api, 'iou');
     sinon.stub(api, 'nonce');
     sinon.stub(iou, 'default');
-    sinon.stub(Contract, 'getArcadeState');
-    sinon.stub(Contract, 'uploadScore');
+    sinon.stub(arcadeContract, 'getArcadeState');
+    sinon.stub(arcadeContract, 'uploadScore');
   });
 
   afterEach(() => {
@@ -32,8 +32,8 @@ describe('endpoints', () => {
     api.iou.restore();
     api.nonce.restore();
     iou.default.restore();
-    Contract.getArcadeState.restore();
-    Contract.uploadScore.restore();
+    arcadeContract.getArcadeState.restore();
+    arcadeContract.uploadScore.restore();
   });
 
   it('move should succeed', async () => {
@@ -68,14 +68,14 @@ describe('endpoints', () => {
 
   it('getArcadeState should succeed', async () => {
     const expected = 1337;
-    Contract.getArcadeState.returns(Promise.resolve(expected));
+    arcadeContract.getArcadeState.returns(Promise.resolve(expected));
     const output = await endpoints.getArcadeState();
     expect(output).toEqual(expected);
   });
 
   it('uploadScore should succeed', async () => {
     const expected = 1337;
-    Contract.uploadScore.returns(Promise.resolve(expected));
+    arcadeContract.uploadScore.returns(Promise.resolve(expected));
     const output = await endpoints.uploadScore();
     expect(output).toEqual(expected);
   });

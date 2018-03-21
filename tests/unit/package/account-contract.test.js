@@ -2,7 +2,7 @@ import Web3 from 'web3/packages/web3';
 import ganache from 'ganache-core';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contracts';
-import * as baseContract from '../../../src/package/base-account-contract';
+import * as baseContract from '../../../src/package/account-contract';
 import * as test from '../../testnet-config';
 import * as accounts from '../../accounts';
 import { accountBytecode } from '../../bytecode';
