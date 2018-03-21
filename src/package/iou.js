@@ -1,5 +1,5 @@
 import signTypedData from './signTypedData';
-import * as deployedContract from '../../src/package/deployed-contract';
+import * as deployedContract from '../../src/package/deployed-contracts';
 
 const iou = async (user, nonce) => {
   const msgParams = [
