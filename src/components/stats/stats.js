@@ -32,7 +32,7 @@ class Stats extends React.Component {
         </div>
         <div className="highscore">
           <p className="label-text">Highscore:</p>
-          <p className="value-text">{highscore} ETH</p>
+          <p className="value-text">{highscore}</p>
         </div>
         <div className="round">
           <p className="label-text">Round:</p>

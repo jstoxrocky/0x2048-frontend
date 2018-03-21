@@ -1,4 +1,4 @@
-import { contract } from './deployed-contracts';
+import { arcadeContract } from './deployed-contracts';
 import { gasPrice, gas } from './web3-provisioned';
 
 const toDecimal = value => (
@@ -6,7 +6,7 @@ const toDecimal = value => (
 );
 
 export const pay = (user, value) => (
-  contract.methods
+  arcadeContract.methods
     .pay()
     .send({
       gas, gasPrice, value, from: user,
@@ -14,24 +14,24 @@ export const pay = (user, value) => (
 );
 
 export const uploadScore = (h, v, r, s, user, scorePreImage) => (
-  contract.methods
+  arcadeContract.methods
     .uploadScore(h, v, r, s, user, scorePreImage)
     .send({ gas, gasPrice, from: user })
 );
 
 
 export const getAddress = () => (
-  contract._address // eslint-disable-line no-underscore-dangle
+  arcadeContract._address // eslint-disable-line no-underscore-dangle
 );
 
 export const getRound = () => (
-  contract.methods.round().call().then(toDecimal)
+  arcadeContract.methods.round().call().then(toDecimal)
 );
 
 export const getJackpot = () => (
-  contract.methods.jackpot().call().then(toDecimal)
+  arcadeContract.methods.jackpot().call().then(toDecimal)
 );
 
 export const getHighscore = () => (
-  contract.methods.highscore().call().then(toDecimal)
+  arcadeContract.methods.highscore().call().then(toDecimal)
 );
