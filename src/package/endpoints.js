@@ -20,10 +20,6 @@ export const iou = async (signature) => {
 };
 
 export const newGame = async () => {
-  // (1) Fetch next IOU from server (GET /iou)
-  // (2) Prompt user to sign next IOU
-  // (3) Submit IOU (POST /iou)
-  // (4) Start new game (POST /move)
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
   const { nonce } = await api.nonce(user);

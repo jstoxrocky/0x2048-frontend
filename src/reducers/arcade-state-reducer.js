@@ -3,26 +3,19 @@ import * as types from '../actions/action-types';
 
 export const initialState = {
   jackpot: 0,
-  price: 0,
+  highscore: 0,
   round: 0,
-  isParticipant: false,
 };
 
 export default (state = initialState, action) => {
   Object.freeze(state);
   switch (action.type) {
+    case types.GET_ARCADE_STATE_FULFILLED:
     case types.UPLOAD_FULFILLED:
       return merge({}, state, {
         jackpot: action.payload.jackpot,
-        isParticipant: action.payload.isParticipant,
+        highscore: action.payload.highscore,
         round: action.payload.round,
-      });
-    case types.GET_ARCADE_STATE_FULFILLED:
-      return merge({}, state, {
-        jackpot: action.payload.jackpot,
-        price: action.payload.price,
-        round: action.payload.round,
-        isParticipant: action.payload.isParticipant,
       });
     default:
       return state;

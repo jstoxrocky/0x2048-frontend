@@ -3,22 +3,20 @@ import * as types from '../../../src/actions/action-types';
 
 const initialState = {
   jackpot: 0,
-  price: 0,
+  highscore: 0,
   round: 0,
-  isParticipant: false,
 };
 
 const mockArcadeState = {
   jackpot: 1,
-  price: 1,
+  highscore: 1,
   round: 1,
-  isParticipant: true,
 };
 
 const mockUploadState = {
   jackpot: 3,
+  highscore: 3,
   round: 3,
-  isParticipant: true,
 };
 
 describe('arcade-state reducer', () => {

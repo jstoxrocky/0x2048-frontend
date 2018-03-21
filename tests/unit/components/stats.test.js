@@ -27,16 +27,12 @@ describe('stats', () => {
     expect(Stats.find('.jackpot').length).toBe(1);
   });
 
-  it('should contain price', () => {
-    expect(Stats.find('.price').length).toBe(1);
+  it('should contain highscore', () => {
+    expect(Stats.find('.highscore').length).toBe(1);
   });
 
   it('should contain round', () => {
     expect(Stats.find('.round').length).toBe(1);
-  });
-
-  it('should contain isParticipant', () => {
-    expect(Stats.find('.isParticipant').length).toBe(1);
   });
 
   it('should call dispatch and getArcadeState and on componentDidMount', () => {

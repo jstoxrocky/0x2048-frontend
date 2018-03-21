@@ -20,10 +20,9 @@ class Stats extends React.Component {
 
   render() {
     const {
-      jackpot, price, round, isParticipant, score,
+      jackpot, highscore, round, score,
     } = this.props;
     const jackpotDisplay = Stats.makeBNDisplayable(jackpot);
-    const priceDisplay = Stats.makeBNDisplayable(price);
     return (
       <div>
         <h5>0x2048</h5>
@@ -31,17 +30,13 @@ class Stats extends React.Component {
           <p className="label-text">Jackpot:</p>
           <p className="value-text">{jackpotDisplay} ETH</p>
         </div>
-        <div className="price">
-          <p className="label-text">Price:</p>
-          <p className="value-text">{priceDisplay} ETH</p>
+        <div className="highscore">
+          <p className="label-text">Highscore:</p>
+          <p className="value-text">{highscore} ETH</p>
         </div>
         <div className="round">
           <p className="label-text">Round:</p>
           <p className="value-text">{round}</p>
-        </div>
-        <div className="isParticipant">
-          <p className="label-text">Has Paid:</p>
-          <p className="value-text">{isParticipant.toString()}</p>
         </div>
         <div className="score">
           <p className="label-text">Score:</p>
@@ -55,9 +50,8 @@ class Stats extends React.Component {
 Stats.propTypes = {
   dispatch: PropTypes.func.isRequired,
   jackpot: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
+  highscore: PropTypes.number.isRequired,
   round: PropTypes.number.isRequired,
-  isParticipant: PropTypes.bool.isRequired,
   score: PropTypes.number.isRequired,
 };
 

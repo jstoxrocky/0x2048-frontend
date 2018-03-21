@@ -17,9 +17,8 @@ describe('layout', () => {
 
     // Mark as not required for this test, otherwise it throws
     Board.default.propTypes.board = PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number));
-    Stats.default.propTypes.isParticipant = PropTypes.bool;
     Stats.default.propTypes.round = PropTypes.number;
-    Stats.default.propTypes.price = PropTypes.number;
+    Stats.default.propTypes.highscore = PropTypes.number;
     Stats.default.propTypes.jackpot = PropTypes.number;
     Stats.default.propTypes.score = PropTypes.number;
     Stats.default.propTypes.dispatch = PropTypes.func;
