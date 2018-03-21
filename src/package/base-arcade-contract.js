@@ -1,4 +1,4 @@
-import { contract } from './deployed-contract';
+import { contract } from './deployed-contracts';
 import { gasPrice, gas } from './web3-provisioned';
 
 const toDecimal = value => (
@@ -19,11 +19,6 @@ export const uploadScore = (h, v, r, s, user, scorePreImage) => (
     .send({ gas, gasPrice, from: user })
 );
 
-export const adjustPrice = (h, v, r, s, user, pricePreImage) => (
-  contract.methods
-    .adjustPrice(h, v, r, s, user, pricePreImage)
-    .send({ gas, gasPrice, from: user })
-);
 
 export const getAddress = () => (
   contract._address // eslint-disable-line no-underscore-dangle
@@ -37,10 +32,6 @@ export const getJackpot = () => (
   contract.methods.jackpot().call().then(toDecimal)
 );
 
-export const getPrice = () => (
-  contract.methods.price().call().then(toDecimal)
-);
-
-export const getParticipation = user => (
-  contract.methods.getParticipation(user).call()
+export const getHighscore = () => (
+  contract.methods.highscore().call().then(toDecimal)
 );
