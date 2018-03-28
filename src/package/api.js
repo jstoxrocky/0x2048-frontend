@@ -11,12 +11,17 @@ export const gameState = (...args) => {
   return safeGameState(...args);
 };
 
-export const iou = (...args) => {
-  const safeiou = handleServerErrors(baseAPI.iou);
-  return safeiou(...args);
-};
-
 export const nonce = (...args) => {
   const safenonce = handleServerErrors(baseAPI.nonce);
+  return safenonce(...args);
+};
+
+export const addressConfirmation = (...args) => {
+  const safenonce = handleServerErrors(baseAPI.addressConfirmation);
+  return safenonce(...args);
+};
+
+export const paymentConfirmation = (...args) => {
+  const safenonce = handleServerErrors(baseAPI.paymentConfirmation);
   return safenonce(...args);
 };

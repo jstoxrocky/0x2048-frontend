@@ -18,6 +18,10 @@ export const getJackpot = () => (
   arcadeContract.methods.jackpot().call().then(toDecimal)
 );
 
+export const getPrice = () => (
+  arcadeContract.methods.price().call().then(toDecimal)
+);
+
 export const getHighscore = () => (
   arcadeContract.methods.highscore().call().then(toDecimal)
 );
@@ -29,15 +33,30 @@ export const getArcadeState = async () => {
   return { jackpot, round, highscore };
 };
 
-export const baseUploadScore = (messageHash, v, r, s, user, scorePreImage) => (
+export const basePay = async (user, nonce, price) => (
   arcadeContract.methods
-    .uploadScore(messageHash, v, r, s, user, scorePreImage)
+    .pay(nonce)
+    .send({
+      gas, gasPrice, from: user, value: price,
+    })
+);
+
+export const pay = async (user, nonce) => {
+  const price = await getPrice();
+  const safePay = handleEVMErrors(handleMetaMaskErrors(basePay));
+  await safePay(user, nonce, price);
+  return true;
+};
+
+export const baseUploadScore = (v, r, s, user, score) => (
+  arcadeContract.methods
+    .uploadScore(v, r, s, user, score)
     .send({ gas, gasPrice, from: user })
 );
 
-export const uploadScore = async (messageHash, v, r, s, user, scorePreImage) => {
+export const uploadScore = async (v, r, s, user, score) => {
   const safeUploadScore = handleEVMErrors(handleMetaMaskErrors(baseUploadScore));
-  await safeUploadScore(messageHash, v, r, s, user, scorePreImage);
+  await safeUploadScore(v, r, s, user, score);
   const jackpot = await getJackpot();
   const round = await getRound();
   const highscore = await getHighscore();

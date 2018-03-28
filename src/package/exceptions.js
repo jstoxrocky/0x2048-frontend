@@ -7,3 +7,4 @@ export const UserAlreadyPaid = new Error('You have already paid.');
 export const UserHasNotPaid = new Error('You have not yet paid.');
 export const TransactionFailure = new Error('The transaction failed.');
 export const ServerError = new Error('The server has thrown an error.');
+export const ValidationError = new Error('Error validating input.');

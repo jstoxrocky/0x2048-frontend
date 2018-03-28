@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import * as exceptions from '../../../src/package/exceptions';
 import * as baseApi from '../../../src/package/base-api';
-import { move, gameState, iou, nonce } from '../../../src/package/api';
+import { move, gameState, addressConfirmation, paymentConfirmation, nonce } from '../../../src/package/api';
 
 describe('handle gameState', () => {
   beforeEach(() => {
@@ -47,28 +47,6 @@ describe('handle move', () => {
   });
 });
 
-describe('handle iou', () => {
-  beforeEach(() => {
-    sinon.stub(baseApi, 'iou');
-  });
-
-  afterEach(() => {
-    baseApi.iou.restore();
-  });
-
-  it('should throw ServerError', async () => {
-    baseApi.iou.returns(Promise.reject());
-    await expect(iou()).rejects.toEqual(exceptions.ServerError);
-  });
-
-  it('should succeed', async () => {
-    const expected = 4;
-    baseApi.iou.returns(Promise.resolve(expected));
-    const output = await iou();
-    expect(output).toBe(expected);
-  });
-});
-
 describe('handle nonce', () => {
   beforeEach(() => {
     sinon.stub(baseApi, 'nonce');
@@ -87,6 +65,50 @@ describe('handle nonce', () => {
     const expected = 4;
     baseApi.nonce.returns(Promise.resolve(expected));
     const output = await nonce();
+    expect(output).toBe(expected);
+  });
+});
+
+describe('handle addressConfirmation', () => {
+  beforeEach(() => {
+    sinon.stub(baseApi, 'addressConfirmation');
+  });
+
+  afterEach(() => {
+    baseApi.addressConfirmation.restore();
+  });
+
+  it('should throw ServerError', async () => {
+    baseApi.addressConfirmation.returns(Promise.reject());
+    await expect(addressConfirmation()).rejects.toEqual(exceptions.ServerError);
+  });
+
+  it('should succeed', async () => {
+    const expected = 4;
+    baseApi.addressConfirmation.returns(Promise.resolve(expected));
+    const output = await addressConfirmation();
+    expect(output).toBe(expected);
+  });
+});
+
+describe('handle paymentConfirmation', () => {
+  beforeEach(() => {
+    sinon.stub(baseApi, 'paymentConfirmation');
+  });
+
+  afterEach(() => {
+    baseApi.paymentConfirmation.restore();
+  });
+
+  it('should throw ServerError', async () => {
+    baseApi.paymentConfirmation.returns(Promise.reject());
+    await expect(paymentConfirmation()).rejects.toEqual(exceptions.ServerError);
+  });
+
+  it('should succeed', async () => {
+    const expected = 4;
+    baseApi.paymentConfirmation.returns(Promise.resolve(expected));
+    const output = await paymentConfirmation();
     expect(output).toBe(expected);
   });
 });
