@@ -6,7 +6,7 @@ import * as deployedContract from '../../../src/package/deployed-contracts';
 import * as contract from '../../../src/package/arcade-contract';
 import * as test from '../../testnet-config';
 import * as accounts from '../../accounts';
-import { arcadeBytecode } from '../../bytecode';
+import arcadeBytecode from '../../bytecode';
 import * as exceptions from '../../../src/package/exceptions';
 
 describe('base-arcade-contract', () => {
@@ -60,28 +60,33 @@ describe('base-arcade-contract', () => {
     expect(output).toEqual(expected);
   });
 
+  it('should succeed when calling pay', async () => {
+    const nonce = 123456;
+    const output = await contract
+      .pay(accounts.user.address, nonce);
+    expect(output).toBe(true);
+  });
+
   it('should succeed when calling upload score', async () => {
     const jackpot = 0;
     const round = 2;
     const highscore = 1;
     const expected = { jackpot, round, highscore };
     const score = 1;
-    const messageHash = '0xa2b3fa66f50925b9648e1f4a0ab934a76c2d5d99f0fbdf5e7293b153a08516b2';
     const v = '0x1c';
     const r = '0x2aaf6d6b8e6084b4b8220b81501da9565661d84dfc85474827d2aeaf47af1428';
     const s = '0x29669f85961770eb3d9ad36e7808ebf3cd616ad717bfb642f805f053a820f3d2';
     const output = await contract
-      .uploadScore(messageHash, v, r, s, accounts.user.address, score);
+      .uploadScore(v, r, s, accounts.user.address, score);
     expect(output).toEqual(expected);
   });
 
   it('should fail when calling uploadScore if data not signed by owner', async () => {
     const score = 1;
-    const messageHash = '0xa2b3fa66f50925b9648e1f4a0ab934a76c2d5d99f0fbdf5e7293b153a08516b2';
     const v = '0x1c';
     const r = '0x42c47c4647da1db355a773d8847f4089f6beea98c2e2e2c55ef6af2348589830';
     const s = '0x3941fbca051659c927ceebb6322f7801957688ca457eef480d473ec1010f89a9';
-    contract.uploadScore(messageHash, v, r, s, accounts.user.address, score)
+    contract.uploadScore(v, r, s, accounts.user.address, score)
       .catch(e => (expect(e))
         .toEqual(exceptions.TransactionFailure));
   });
@@ -98,11 +103,10 @@ describe('base-arcade-contract', () => {
     it('should gracefully handle MetaMask exceptions', async () => {
       contract.baseUploadScore.returns(async () => Promise.reject().catch(() => {}));
       const score = 0;
-      const messageHash = '';
       const v = '';
       const r = '';
       const s = '';
-      await contract.uploadScore(messageHash, v, r, s, accounts.user.address, score)
+      await contract.uploadScore(v, r, s, accounts.user.address, score)
         .catch(e => (expect(e))
           .toEqual(exceptions.MetamaskError));
     });
