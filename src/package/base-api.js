@@ -14,14 +14,18 @@ export const move = (user, direction) => (
   api.post('/move', { user, direction })
 );
 
-export const iou = signature => (
-  api.post('/iou', signature)
+export const nonce = () => (
+  api.get('/nonce')
 );
 
-export const nonce = user => (
-  api.get('/nonce', {
+export const addressConfirmation = signature => (
+  api.get('/address-confirmation', {
     params: {
-      user,
+      signature,
     },
   })
+);
+
+export const paymentConfirmation = () => (
+  api.get('/payment-confirmation')
 );

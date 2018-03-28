@@ -2,15 +2,7 @@ export const nonceSchema = {
   id: '/nonceSchema',
   type: 'object',
   properties: {
-    nonce: { type: 'number', required: true },
-  },
-};
-
-export const userSchema = {
-  id: '/userSchema',
-  type: 'object',
-  properties: {
-    user: { type: 'string', required: true },
+    nonce: { type: 'string', required: true },
   },
 };
 
@@ -25,8 +17,10 @@ export const moveSchema = {
 
 export const simpleSignatureSchema = {
   id: '/simpleSignatureSchema',
-  type: 'string',
-  required: true,
+  type: 'object',
+  properties: {
+    signature: { type: 'string', required: true },
+  },
 };
 
 export const fullSignatureSchema = {
@@ -38,19 +32,9 @@ export const fullSignatureSchema = {
     v: { type: 'number', required: true },
     r: { type: 'string', required: true },
     s: { type: 'string', required: true },
-    signature: { $ref: '/simpleSignatureSchema' },
+    signature: { type: 'string', required: true },
   },
   required: true,
-};
-
-export const IOUSchema = {
-  id: '/IOUSchema',
-  type: 'object',
-  properties: {
-    user: { type: 'string', required: true },
-    nonce: { type: 'number', required: true },
-    signature: { $ref: '/simpleSignatureSchema' },
-  },
 };
 
 export const signedGamestateSchema = {

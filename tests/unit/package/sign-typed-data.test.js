@@ -7,7 +7,7 @@ import * as GethApiDouble from 'ganache-core/lib/subproviders/geth_api_double';
 import * as test from '../../testnet-config';
 import * as accounts from '../../accounts';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
-import signTypedData from '../../../src/package/signTypedData';
+import signTypedData from '../../../src/package/sign-typed-data';
 
 // Mock eth_signTypedData
 const account = {

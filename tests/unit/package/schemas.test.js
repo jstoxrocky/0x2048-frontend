@@ -1,9 +1,9 @@
 import jsonschema from 'jsonschema';
-import * as schemas from '../../schemas';
+import * as schemas from '../../../src/package/schemas';
 
 describe('nonceSchema', () => {
   it('should validate', async () => {
-    const nonce = 17;
+    const nonce = '0x123456';
     const instance = { nonce };
     const validator = new jsonschema.Validator();
     const result = validator.validate(instance, schemas.nonceSchema);
@@ -11,7 +11,7 @@ describe('nonceSchema', () => {
   });
 
   it('should fail to validate string', async () => {
-    const nonce = '';
+    const nonce = 17;
     const instance = { nonce };
     const validator = new jsonschema.Validator();
     const result = validator.validate(instance, schemas.nonceSchema);
@@ -19,7 +19,7 @@ describe('nonceSchema', () => {
   });
 
   it('should fail to validate wrong key', async () => {
-    const value = 17;
+    const value = '0x123456';
     const instance = { value };
     const validator = new jsonschema.Validator();
     const result = validator.validate(instance, schemas.nonceSchema);
@@ -27,42 +27,18 @@ describe('nonceSchema', () => {
   });
 });
 
-describe('userSchema', () => {
-  it('should validate', async () => {
-    const user = '0x0';
-    const instance = { user };
-    const validator = new jsonschema.Validator();
-    const result = validator.validate(instance, schemas.userSchema);
-    expect(result.errors).toHaveLength(0);
-  });
-
-  it('should fail to validate number', async () => {
-    const user = 0;
-    const instance = { user };
-    const validator = new jsonschema.Validator();
-    const result = validator.validate(instance, schemas.userSchema);
-    expect(result.errors).toHaveLength(1);
-  });
-
-  it('should fail to validate wrong key', async () => {
-    const value = '0x0';
-    const instance = { value };
-    const validator = new jsonschema.Validator();
-    const result = validator.validate(instance, schemas.userSchema);
-    expect(result.errors).toHaveLength(1);
-  });
-});
-
 describe('simpleSignatureSchema', () => {
   it('should validate', async () => {
-    const instance = '0x';
+    const signature = '0x';
+    const instance = { signature };
     const validator = new jsonschema.Validator();
     const result = validator.validate(instance, schemas.simpleSignatureSchema);
     expect(result.errors).toHaveLength(0);
   });
 
   it('should fail to validate a number', async () => {
-    const instance = 0;
+    const signature = 0;
+    const instance = { signature };
     const validator = new jsonschema.Validator();
     const result = validator.validate(instance, schemas.simpleSignatureSchema);
     expect(result.errors).toHaveLength(1);
@@ -216,58 +192,6 @@ describe('signedGamestateSchema', () => {
       validator.addSchema(schemas.fullSignatureSchema, '/fullSignatureSchema');
       validator.addSchema(schemas.gamestateSchema, '/gamestateSchema');
       const result = validator.validate(instance, schemas.signedGamestateSchema);
-      expect(result.errors).toHaveLength(1);
-    });
-  });
-});
-
-describe('IOUSchema', () => {
-  it('should validate', async () => {
-    const instance = {
-      user: '0x',
-      nonce: 0,
-      signature: '0x',
-    };
-    const validator = new jsonschema.Validator();
-    validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
-    const result = validator.validate(instance, schemas.IOUSchema);
-    expect(result.errors).toHaveLength(0);
-  });
-
-  [
-    ['user', 0],
-    ['nonce', ''],
-    ['signature', 0],
-  ].forEach(([key, value]) => {
-    it(`should fail to validate with wrong datatype: ${key}`, async () => {
-      const instance = {
-        user: '0x',
-        nonce: 0,
-        signature: '0x',
-      };
-      instance[key] = value;
-      const validator = new jsonschema.Validator();
-      validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
-      const result = validator.validate(instance, schemas.IOUSchema);
-      expect(result.errors).toHaveLength(1);
-    });
-  });
-
-  [
-    ['user'],
-    ['nonce'],
-    ['signature'],
-  ].forEach(([key]) => {
-    it(`should fail to validate with missing data: ${key}`, async () => {
-      const instance = {
-        user: '0x',
-        nonce: 0,
-        signature: '0x',
-      };
-      delete instance[key];
-      const validator = new jsonschema.Validator();
-      validator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
-      const result = validator.validate(instance, schemas.IOUSchema);
       expect(result.errors).toHaveLength(1);
     });
   });
