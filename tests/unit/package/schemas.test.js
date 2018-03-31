@@ -29,16 +29,14 @@ describe('nonceSchema', () => {
 
 describe('simpleSignatureSchema', () => {
   it('should validate', async () => {
-    const signature = '0x';
-    const instance = { signature };
+    const instance = '0x';
     const validator = new jsonschema.Validator();
     const result = validator.validate(instance, schemas.simpleSignatureSchema);
     expect(result.errors).toHaveLength(0);
   });
 
   it('should fail to validate a number', async () => {
-    const signature = 0;
-    const instance = { signature };
+    const instance = 0;
     const validator = new jsonschema.Validator();
     const result = validator.validate(instance, schemas.simpleSignatureSchema);
     expect(result.errors).toHaveLength(1);
