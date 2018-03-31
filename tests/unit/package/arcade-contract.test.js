@@ -61,7 +61,7 @@ describe('base-arcade-contract', () => {
   });
 
   it('should succeed when calling pay', async () => {
-    const nonce = 123456;
+    const nonce = '0x01';
     const output = await contract
       .pay(accounts.user.address, nonce);
     expect(output).toBe(true);

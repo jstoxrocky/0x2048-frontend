@@ -40,12 +40,14 @@ export const newGame = async () => {
   gameStateValidator.addSchema(schemas.fullSignatureSchema, '/fullSignatureSchema');
   gameStateValidator.addSchema(schemas.gamestateSchema, '/gamestateSchema');
   const gameStateValidation = gameStateValidator.validate(
-    noncePayload,
+    gamestate,
     schemas.signedGamestateSchema,
   );
   if (gameStateValidation.errors.length > 0) {
     throw exceptions.ValidationError;
   }
+  // TODO
+  // Should update Jackpot
   return gamestate;
 };
 

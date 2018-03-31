@@ -15,8 +15,7 @@ const signNonce = async (user, nonce) => {
     },
   ];
   const signature = await signTypedData(msgParams, user);
-  const payload = { signature };
-  return payload;
+  return signature;
 };
 
 export default signNonce;

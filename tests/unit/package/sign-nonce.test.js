@@ -9,6 +9,7 @@ import * as accounts from '../../accounts';
 import signNonce from '../../../src/package/sign-nonce';
 import * as schemas from '../../../src/package/schemas';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
+import * as deployedContract from '../../../src/package/deployed-contracts';
 
 const account = {
   secretKey: accounts.user.privateKey,
@@ -40,10 +41,41 @@ describe('signNonce', () => {
 
   it('should validate schema', async () => {
     const nonce = '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470';
-    const payload = await signNonce(accounts.user.address, nonce);
+    const signature = await signNonce(accounts.user.address, nonce);
     const validator = new jsonschema.Validator();
-    const result = validator.validate(payload, schemas.simpleSignatureSchema);
+    const result = validator.validate(signature, schemas.simpleSignatureSchema);
     expect(result.errors).toHaveLength(0);
+  });
+
+  it('signer should be known user', async () => {
+    const nonce = '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470';
+    const signature = await signNonce(accounts.user.address, nonce);
+    const msgParams = [
+      {
+        type: 'string',
+        name: 'This signature is for intended for use with 0x2048 at the below Rinkeby address. If you are seeing this message and not interacting with 0x2048, someone may be attempting forge your signature',
+        value: deployedContract.arcadeAddress,
+      },
+      {
+        type: 'bytes32',
+        name: 'nonce',
+        value: nonce,
+      },
+    ];
+    const data = _.map(msgParams, 'value');
+    const types = _.map(msgParams, 'type');
+    const schema = _.map(msgParams, entry => `${entry.type} ${entry.name}`);
+    const hashBuffer = ethAbi.soliditySHA3(
+      ['bytes32', 'bytes32'],
+      [
+        ethAbi.soliditySHA3(_.times(msgParams.length, _.constant('string')), schema),
+        ethAbi.soliditySHA3(types, data),
+      ],
+    );
+    const hash = `0x${hashBuffer.toString('hex')}`;
+    const isPrefixed = true;
+    const signer = web3Provisioned.web3.eth.accounts.recover(hash, signature, isPrefixed);
+    expect(signer).toBe(accounts.user.address);
   });
 
   afterAll('shutdown', (done) => {

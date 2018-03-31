@@ -17,10 +17,8 @@ export const moveSchema = {
 
 export const simpleSignatureSchema = {
   id: '/simpleSignatureSchema',
-  type: 'object',
-  properties: {
-    signature: { type: 'string', required: true },
-  },
+  type: 'string',
+  required: true,
 };
 
 export const fullSignatureSchema = {

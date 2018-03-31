@@ -43,9 +43,10 @@ describe('endpoints', () => {
 
   it('newGame should throw ValidationError from gamestate', async () => {
     sinon.stub(api, 'nonce');
+    sinon.stub(arcadeContract, 'pay');
     sinon.stub(api, 'addressConfirmation');
     sinon.stub(api, 'paymentConfirmation');
-    const nonce = 123456;
+    const nonce = '0x01';
     const gamestate = {};
     api.nonce.returns(Promise.resolve({ nonce }));
     api.paymentConfirmation.returns(Promise.resolve(gamestate));
