@@ -344,7 +344,7 @@ describe('schemas', async () => {
       };
       const validator = new jsonschema.Validator();
       validator.addSchema(schemas.fullSignature, '/fullSignature');
-        const result = validator.validate(instance, schemas.signedGamestate);
+      const result = validator.validate(instance, schemas.signedGamestate);
       expect(result.errors).toHaveLength(0);
     });
 
@@ -405,4 +405,4 @@ describe('schemas', async () => {
       });
     });
   });
-})
+});

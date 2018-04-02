@@ -41,7 +41,7 @@ export const basePay = async (user, nonce, price) => (
     })
 );
 
-export const pay = async payment => {
+export const pay = async (payment) => {
   const safePay = handleEVMErrors(handleMetaMaskErrors(basePay));
   const receipt = await safePay(
     payment.user,
@@ -51,7 +51,7 @@ export const pay = async payment => {
   return receipt;
 };
 
-export const baseUploadScore = (signedScore) => (
+export const baseUploadScore = signedScore => (
   arcadeContract.methods
     .uploadScore(
       signedScore.v,

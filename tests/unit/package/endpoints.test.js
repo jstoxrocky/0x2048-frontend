@@ -32,7 +32,7 @@ describe('endpoint', async () => {
     });
 
     it('should send arguments that validate schemas.move to api.move', async () => {
-      sinon.stub(api, 'move').callsFake(move => {
+      sinon.stub(api, 'move').callsFake((move) => {
         const validator = new jsonschema.Validator();
         const result = validator.validate(move, schemas.move);
         if (result.errors.length > 0) {
@@ -78,7 +78,7 @@ describe('endpoint', async () => {
     });
 
     it('should send arguments that validate schemas.signedScore to arcadeContract.uploadScore', async () => {
-      sinon.stub(arcadeContract, 'uploadScore').callsFake(signedScore => {
+      sinon.stub(arcadeContract, 'uploadScore').callsFake((signedScore) => {
         const validator = new jsonschema.Validator();
         const result = validator.validate(signedScore, schemas.signedScore);
         if (result.errors.length > 0) {
@@ -163,10 +163,10 @@ describe('endpoint', async () => {
       sinon.stub(api, 'nonce');
       sinon.stub(signer, 'default');
       sinon.stub(arcadeContract, 'getPrice');
-      sinon.stub(arcadeContract, 'pay')
+      sinon.stub(arcadeContract, 'pay');
       sinon.stub(api, 'paymentConfirmation');
       sinon.stub(arcadeContract, 'getArcadeState');
-      
+
       const challenge = { nonce: '0x01' };
       const signature = '0x01';
       const price = 1;
@@ -177,11 +177,11 @@ describe('endpoint', async () => {
       api.nonce.returns(Promise.resolve(challenge));
       signer.default.returns(Promise.resolve(signature));
       arcadeContract.getPrice.returns(Promise.resolve(price));
-      arcadeContract.pay.returns(Promise.resolve(txreceipt))
-      arcadeContract.getArcadeState.returns(Promise.resolve(arcadeState))
-      api.paymentConfirmation.returns(Promise.resolve(gameState))
+      arcadeContract.pay.returns(Promise.resolve(txreceipt));
+      arcadeContract.getArcadeState.returns(Promise.resolve(arcadeState));
+      api.paymentConfirmation.returns(Promise.resolve(gameState));
 
-      const output = await endpoints.newGame()
+      const output = await endpoints.newGame();
       expect(output).toEqual({ gameState, arcadeState });
 
       api.nonce.restore();
@@ -206,7 +206,7 @@ describe('endpoint', async () => {
       signer.default.returns(Promise.resolve(signature));
       arcadeContract.getPrice.returns(Promise.resolve(price));
 
-      sinon.stub(arcadeContract, 'pay').callsFake(payment => {
+      sinon.stub(arcadeContract, 'pay').callsFake((payment) => {
         const validator = new jsonschema.Validator();
         const result = validator.validate(payment, schemas.payment);
         if (result.errors.length > 0) {
@@ -215,7 +215,7 @@ describe('endpoint', async () => {
         return true;
       });
 
-      const output = await endpoints.newGame();
+      await endpoints.newGame();
 
       api.nonce.restore();
       signer.default.restore();
@@ -226,10 +226,9 @@ describe('endpoint', async () => {
     });
 
     it('should send arguments that validate schemas.receipt to api.paymentConfirmation', async () => {
-      
       sinon.stub(api, 'nonce');
       sinon.stub(signer, 'default');
-      sinon.stub(arcadeContract, 'pay')
+      sinon.stub(arcadeContract, 'pay');
       sinon.stub(arcadeContract, 'getPrice');
       sinon.stub(arcadeContract, 'getArcadeState');
 
@@ -239,24 +238,23 @@ describe('endpoint', async () => {
       const txreceipt = { transactionHash: '0x01' };
 
       const validator = new jsonschema.Validator();
-      const result = validator.validate(txreceipt, schemas.transactionReceipt);
-      expect(result.errors).toHaveLength(0);
+      const transactionReceiptResult = validator.validate(txreceipt, schemas.transactionReceipt);
+      expect(transactionReceiptResult.errors).toHaveLength(0);
 
       api.nonce.returns(Promise.resolve(challenge));
       signer.default.returns(Promise.resolve(signature));
       arcadeContract.getPrice.returns(Promise.resolve(price));
-      arcadeContract.pay.returns(Promise.resolve(txreceipt))
+      arcadeContract.pay.returns(Promise.resolve(txreceipt));
 
-      sinon.stub(api, 'paymentConfirmation').callsFake(receipt => {
-        const validator = new jsonschema.Validator();
-        const result = validator.validate(receipt, schemas.receipt);
-        if (result.errors.length > 0) {
+      sinon.stub(api, 'paymentConfirmation').callsFake((receipt) => {
+        const receiptResult = validator.validate(receipt, schemas.receipt);
+        if (receiptResult.errors.length > 0) {
           throw exceptions.ValidationError;
         }
         return true;
       });
 
-      const output = await endpoints.newGame();
+      await endpoints.newGame();
 
       api.nonce.restore();
       signer.default.restore();
