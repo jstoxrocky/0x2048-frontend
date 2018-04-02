@@ -32,10 +32,10 @@ describe('arcadeContract', () => {
 
   describe('state variables', async () => {
     it('should have an owner equal to test owner', async () => {
-    const contractOwner = await deployedContract.arcadeContract.methods.owner().call();
-    expect(contractOwner).toBe(accounts.owner.address);
+      const contractOwner = await deployedContract.arcadeContract.methods.owner().call();
+      expect(contractOwner).toBe(accounts.owner.address);
     });
-  
+
     it('should have an initial round equal to 1', async () => {
       const expected = 1;
       const output = await contract.getRound();
@@ -120,15 +120,17 @@ describe('arcadeContract', () => {
       const v = '0x1c';
       const r = '0x2aaf6d6b8e6084b4b8220b81501da9565661d84dfc85474827d2aeaf47af1428';
       const s = '0x29669f85961770eb3d9ad36e7808ebf3cd616ad717bfb642f805f053a820f3d2';
-      
-      const signedScore = { v, r, s, score, user };
+
+      const signedScore = {
+        v, r, s, score, user,
+      };
       const validator = new jsonschema.Validator();
       const result = validator.validate(signedScore, schemas.signedScore);
       expect(result.errors).toHaveLength(0);
 
       const output = await contract
         .uploadScore(signedScore);
-    
+
       const arcadeStateResult = validator.validate(output, schemas.arcadeState);
       expect(arcadeStateResult.errors).toHaveLength(0);
       expect(output).toEqual(expected);
@@ -140,7 +142,9 @@ describe('arcadeContract', () => {
       const v = '0x1c';
       const r = '0x42c47c4647da1db355a773d8847f4089f6beea98c2e2e2c55ef6af2348589830';
       const s = '0x3941fbca051659c927ceebb6322f7801957688ca457eef480d473ec1010f89a9';
-      const signedScore = { v, r, s, score, user };
+      const signedScore = {
+        v, r, s, score, user,
+      };
       contract.uploadScore(signedScore)
         .catch(e => (expect(e))
           .toEqual(exceptions.TransactionFailure));
@@ -154,7 +158,9 @@ describe('arcadeContract', () => {
       const v = '';
       const r = '';
       const s = '';
-      const signedScore = { v, r, s, score, user };
+      const signedScore = {
+        v, r, s, score, user,
+      };
       await contract.uploadScore(signedScore)
         .catch(e => (expect(e))
           .toEqual(exceptions.MetamaskError));

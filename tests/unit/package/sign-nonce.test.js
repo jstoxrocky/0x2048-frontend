@@ -1,5 +1,4 @@
 import ganache from 'ganache-core';
-import jsonschema from 'jsonschema';
 import Web3 from 'web3/packages/web3';
 import * as ethAbi from 'ethereumjs-abi';
 import * as utils from 'ethereumjs-util';
@@ -7,7 +6,6 @@ import * as _ from 'lodash';
 import * as GethApiDouble from 'ganache-core/lib/subproviders/geth_api_double';
 import * as accounts from '../../accounts';
 import signNonce from '../../../src/package/sign-nonce';
-import * as schemas from '../../../src/package/schemas';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contracts';
 
