@@ -7,58 +7,42 @@ import signNonce from './sign-nonce';
 import * as schemas from './schemas';
 import * as exceptions from './exceptions';
 
-export const move = async (direction) => {
-  await connectedToEVM();
-  const [user] = await web3.eth.getAccounts();
-  return api.move(user, direction);
-};
-
 export const gameState = async () => (
   api.gameState()
 );
 
+export const move = async (direction) => {
+  await connectedToEVM();
+  const [user] = await web3.eth.getAccounts();
+  const move = { user, direction }
+  const gameState = await api.move(move);
+  return gameState;
+};
+
 export const newGame = async () => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
-  // Get nonce
-  const noncePayload = await api.nonce();
-  const nonceValidator = new jsonschema.Validator();
-  const nonceValidation = nonceValidator.validate(noncePayload, schemas.nonceSchema);
-  if (nonceValidation.errors.length > 0) {
-    throw exceptions.ValidationError;
-  }
-  const { nonce } = noncePayload;
-  // Sign nonce
-  const signature = await signNonce(user, nonce);
-  // Pay and confirm address
-  await arcadeContract.pay(user, nonce);
-  await api.addressConfirmation(signature);
-  // Confirm payment
-  const gamestate = await api.paymentConfirmation();
-  const gameStateValidator = new jsonschema.Validator();
-  gameStateValidator.addSchema(schemas.simpleSignatureSchema, '/simpleSignatureSchema');
-  gameStateValidator.addSchema(schemas.fullSignatureSchema, '/fullSignatureSchema');
-  gameStateValidator.addSchema(schemas.gamestateSchema, '/gamestateSchema');
-  const gameStateValidation = gameStateValidator.validate(
-    gamestate,
-    schemas.signedGamestateSchema,
-  );
-  if (gameStateValidation.errors.length > 0) {
-    throw exceptions.ValidationError;
-  }
-  // TODO
-  // Should update Jackpot
-  return gamestate;
+  const challenge = await api.nonce();
+  const signature = await signNonce(user, challenge.nonce);
+  const price = await arcadeContract.getPrice();
+  const payment = { user, price, nonce: challenge.nonce }
+  const txreceipt = await arcadeContract.pay(payment);
+  const receipt = { signature, txhash: txreceipt.transactionHash };
+  const gameState = await api.paymentConfirmation(receipt);
+  const arcadeState = await arcadeContract.getArcadeState();
+  return { gameState, arcadeState };
 };
 
 export const getArcadeState = async () => {
   await connectedToEVM();
-  const state = await arcadeContract.getArcadeState();
-  return state;
+  const arcadeState = await arcadeContract.getArcadeState();
+  return arcadeState;
 };
 
-export const uploadScore = async (messageHash, v, r, s, score) => {
+export const uploadScore = async (v, r, s, score) => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
-  return arcadeContract.uploadScore(messageHash, v, r, s, user, score);
+  const signedScore = { v, r, s, user, score };
+  const arcadeState = await arcadeContract.uploadScore(signedScore);
+  return arcadeState;
 };

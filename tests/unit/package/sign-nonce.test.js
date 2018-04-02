@@ -39,14 +39,6 @@ describe('signNonce', () => {
     web3Provisioned.web3.setProvider(ganache.provider(test.options));
   });
 
-  it('should validate schema', async () => {
-    const nonce = '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470';
-    const signature = await signNonce(accounts.user.address, nonce);
-    const validator = new jsonschema.Validator();
-    const result = validator.validate(signature, schemas.simpleSignatureSchema);
-    expect(result.errors).toHaveLength(0);
-  });
-
   it('signer should be known user', async () => {
     const nonce = '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470';
     const signature = await signNonce(accounts.user.address, nonce);

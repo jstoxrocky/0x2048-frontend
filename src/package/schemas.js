@@ -1,13 +1,15 @@
-export const nonceSchema = {
-  id: '/nonceSchema',
+// api.nonce
+export const nonce = {
+  id: '/nonce',
   type: 'object',
   properties: {
     nonce: { type: 'string', required: true },
   },
 };
 
-export const moveSchema = {
-  id: '/moveSchema',
+// api.move input
+export const move = {
+  id: '/move',
   type: 'object',
   properties: {
     user: { type: 'string', required: true },
@@ -15,14 +17,67 @@ export const moveSchema = {
   },
 };
 
-export const simpleSignatureSchema = {
-  id: '/simpleSignatureSchema',
-  type: 'string',
+// arcadeContract.uploadScore input
+export const signedScore = {
+  id: '/signedScore',
+  type: 'object',
+  properties: {
+    v: { type: 'string', required: true },
+    r: { type: 'string', required: true },
+    s: { type: 'string', required: true },
+    score: { type: 'number', required: true },
+    user: { type: 'string', required: true },
+  },
   required: true,
 };
 
-export const fullSignatureSchema = {
-  id: '/fullSignatureSchema',
+// arcadeContract.pay input
+export const payment = {
+  id: '/payment',
+  type: 'object',
+  properties: {
+    user: { type: 'string', required: true },
+    price: { type: 'number', required: true },
+    nonce: { type: 'string', required: true },
+  },
+  required: true,
+};
+
+// api.paymentConfirmation input
+export const receipt = {
+  id: '/receipt',
+  type: 'object',
+  properties: {
+    txhash: { type: 'string', required: true },
+    signature: { type: 'string', required: true },
+  },
+  required: true,
+};
+
+// arcadeContract.pay output
+export const transactionReceipt = {
+  id: '/transactionReceipt',
+  type: 'object',
+  properties: {
+    transactionHash: { type: 'string', required: true },
+  },
+  required: true,
+};
+
+// arcadeContract.uploadScore output
+export const arcadeState = {
+  id: '/arcadeState',
+  type: 'object',
+  properties: {
+    jackpot: { type: 'number', required: true },
+    round: { type: 'number', required: true },
+    highscore: { type: 'number', required: true },
+  },
+  required: true,
+};
+
+export const fullSignature = {
+  id: '/fullSignature',
   type: 'object',
   properties: {
     message: { type: 'string', required: true },
@@ -35,8 +90,9 @@ export const fullSignatureSchema = {
   required: true,
 };
 
-export const signedGamestateSchema = {
-  id: '/signedGamestateSchema',
+// api.move, api.paymentConfirmation output
+export const signedGamestate = {
+  id: '/signedGamestate',
   properties: {
     score: { type: 'number', required: true },
     gameover: { type: 'boolean', required: true },
@@ -56,6 +112,6 @@ export const signedGamestateSchema = {
       minItems: 4,
       maxItems: 4,
     },
-    signature: { $ref: '/fullSignatureSchema' },
+    signature: { $ref: '/fullSignature' },
   },
 };
