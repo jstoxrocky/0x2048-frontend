@@ -41,22 +41,31 @@ export const basePay = async (user, nonce, price) => (
     })
 );
 
-export const pay = async (user, nonce) => {
-  const price = await getPrice();
+export const pay = async payment => {
   const safePay = handleEVMErrors(handleMetaMaskErrors(basePay));
-  await safePay(user, nonce, price);
-  return true;
+  const receipt = await safePay(
+    payment.user,
+    payment.nonce,
+    payment.price,
+  );
+  return receipt;
 };
 
-export const baseUploadScore = (v, r, s, user, score) => (
+export const baseUploadScore = (signedScore) => (
   arcadeContract.methods
-    .uploadScore(v, r, s, user, score)
-    .send({ gas, gasPrice, from: user })
+    .uploadScore(
+      signedScore.v,
+      signedScore.r,
+      signedScore.s,
+      signedScore.user,
+      signedScore.score,
+    )
+    .send({ gas, gasPrice, from: signedScore.user })
 );
 
-export const uploadScore = async (v, r, s, user, score) => {
+export const uploadScore = async (signedScore) => {
   const safeUploadScore = handleEVMErrors(handleMetaMaskErrors(baseUploadScore));
-  await safeUploadScore(v, r, s, user, score);
+  await safeUploadScore(signedScore);
   const jackpot = await getJackpot();
   const round = await getRound();
   const highscore = await getHighscore();
