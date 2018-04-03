@@ -107,7 +107,7 @@ export const signedGamestate = {
       maxItems: 4,
     },
     signature: { $ref: '/fullSignature' },
-    recovered_address: { type: 'string', required: true },
+    recoveredAddress: { type: 'string', required: true },
   },
   additionalProperties: false,
 };

@@ -8,6 +8,7 @@ export const initialState = {
   signature: {
     message: '0x0', messageHash: '0x0', v: 0, r: '0x0', s: '0x0', signature: '0x0',
   },
+  recoveredAddress: '0x0',
 };
 
 export default (state = initialState, action) => {
