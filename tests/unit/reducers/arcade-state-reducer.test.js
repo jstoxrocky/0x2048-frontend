@@ -39,4 +39,11 @@ describe('arcade-state reducer', () => {
     };
     expect(reducer({}, fulfilledAction)).toEqual(mockUploadState);
   });
+  it('should handle GET_NEW_GAME_FULFILLED', () => {
+    const fulfilledAction = {
+      type: types.GET_NEW_GAME_FULFILLED,
+      payload: { arcadeState: mockArcadeState },
+    };
+    expect(reducer({}, fulfilledAction)).toEqual(mockArcadeState);
+  });
 });
