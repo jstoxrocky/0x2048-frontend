@@ -33,7 +33,7 @@ export const getArcadeState = async () => {
   return { jackpot, round, highscore };
 };
 
-export const basePay = async (user, nonce, price) => (
+export const basePay = async (nonce, user, price) => (
   arcadeContract.methods
     .pay(nonce)
     .send({
@@ -41,31 +41,31 @@ export const basePay = async (user, nonce, price) => (
     })
 );
 
-export const pay = async (payment) => {
+export const pay = async (challenge, user, price) => {
   const safePay = handleEVMErrors(handleMetaMaskErrors(basePay));
   const receipt = await safePay(
-    payment.user,
-    payment.nonce,
-    payment.price,
+    challenge.nonce,
+    user,
+    price,
   );
   return receipt;
 };
 
-export const baseUploadScore = signedScore => (
+export const baseUploadScore = (signedScore, user) => (
   arcadeContract.methods
     .uploadScore(
       signedScore.v,
       signedScore.r,
       signedScore.s,
-      signedScore.user,
+      signedScore.recoveredAddress,
       signedScore.score,
     )
-    .send({ gas, gasPrice, from: signedScore.user })
+    .send({ gas, gasPrice, from: user })
 );
 
-export const uploadScore = async (signedScore) => {
+export const uploadScore = async (signedScore, user) => {
   const safeUploadScore = handleEVMErrors(handleMetaMaskErrors(baseUploadScore));
-  await safeUploadScore(signedScore);
+  await safeUploadScore(signedScore, user);
   const jackpot = await getJackpot();
   const round = await getRound();
   const highscore = await getHighscore();

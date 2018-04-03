@@ -13,7 +13,6 @@ class UploadScoreBtn extends React.Component {
     e.preventDefault();
     const { signature, score } = this.props;
     this.props.dispatch(uploadScore(
-      signature.messageHash,
       signature.v,
       signature.r,
       signature.s,

@@ -29,7 +29,7 @@ describe('score reducer', () => {
   it('should handle GET_NEW_GAME_FULFILLED', () => {
     const fulfilledAction = {
       type: types.GET_NEW_GAME_FULFILLED,
-      payload: mockGameState,
+      payload: { gameState: mockGameState },
     };
     expect(reducer({}, fulfilledAction)).toEqual(mockGameState);
   });

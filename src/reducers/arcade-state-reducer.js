@@ -17,6 +17,8 @@ export default (state = initialState, action) => {
         highscore: action.payload.highscore,
         round: action.payload.round,
       });
+    case types.GET_NEW_GAME_FULFILLED:
+      return merge({}, state, action.payload.arcadeState);
     default:
       return state;
   }

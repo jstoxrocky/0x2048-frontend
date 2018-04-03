@@ -82,14 +82,14 @@ describe('arcadeContract', () => {
       const nonce = '0x01';
       const user = accounts.user.address;
       const price = await contract.getPrice();
-      const payment = { user, price, nonce };
+      const challenge = { nonce };
 
       const validator = new jsonschema.Validator();
-      const paymentResult = validator.validate(payment, schemas.payment);
+      const paymentResult = validator.validate(challenge, schemas.nonce);
       expect(paymentResult.errors).toHaveLength(0);
 
       const output = await contract
-        .pay(payment);
+        .pay(challenge, user, price);
 
       const transactionReceiptResult = validator.validate(output, schemas.transactionReceipt);
       expect(transactionReceiptResult.errors).toHaveLength(0);
@@ -101,8 +101,8 @@ describe('arcadeContract', () => {
       const nonce = '0x01';
       const user = accounts.user.address;
       const price = await contract.getPrice();
-      const payment = { user, price, nonce };
-      await contract.pay(payment)
+      const challenge = { nonce };
+      await contract.pay(challenge, user, price)
         .catch(e => (expect(e))
           .toEqual(exceptions.MetamaskError));
       contract.basePay.restore();
@@ -116,20 +116,21 @@ describe('arcadeContract', () => {
       const highscore = 1;
       const expected = { jackpot, round, highscore };
       const score = 1;
+      const recoveredAddress = accounts.user.address;
       const user = accounts.user.address;
       const v = '0x1c';
       const r = '0x2aaf6d6b8e6084b4b8220b81501da9565661d84dfc85474827d2aeaf47af1428';
       const s = '0x29669f85961770eb3d9ad36e7808ebf3cd616ad717bfb642f805f053a820f3d2';
 
       const signedScore = {
-        v, r, s, score, user,
+        v, r, s, score, recoveredAddress,
       };
       const validator = new jsonschema.Validator();
       const result = validator.validate(signedScore, schemas.signedScore);
       expect(result.errors).toHaveLength(0);
 
       const output = await contract
-        .uploadScore(signedScore);
+        .uploadScore(signedScore, user);
 
       const arcadeStateResult = validator.validate(output, schemas.arcadeState);
       expect(arcadeStateResult.errors).toHaveLength(0);
@@ -138,14 +139,15 @@ describe('arcadeContract', () => {
 
     it('should fail if data not signed by owner', async () => {
       const score = 1;
+      const recoveredAddress = accounts.user.address;
       const user = accounts.user.address;
       const v = '0x1c';
       const r = '0x42c47c4647da1db355a773d8847f4089f6beea98c2e2e2c55ef6af2348589830';
       const s = '0x3941fbca051659c927ceebb6322f7801957688ca457eef480d473ec1010f89a9';
       const signedScore = {
-        v, r, s, score, user,
+        v, r, s, score, recoveredAddress,
       };
-      contract.uploadScore(signedScore)
+      contract.uploadScore(signedScore, user)
         .catch(e => (expect(e))
           .toEqual(exceptions.TransactionFailure));
     });
@@ -154,14 +156,15 @@ describe('arcadeContract', () => {
       sinon.stub(contract, 'baseUploadScore');
       contract.baseUploadScore.returns(async () => Promise.reject().catch(() => {}));
       const score = 0;
+      const recoveredAddress = accounts.user.address;
       const user = accounts.user.address;
       const v = '';
       const r = '';
       const s = '';
       const signedScore = {
-        v, r, s, score, user,
+        v, r, s, score, recoveredAddress,
       };
-      await contract.uploadScore(signedScore)
+      await contract.uploadScore(signedScore, user)
         .catch(e => (expect(e))
           .toEqual(exceptions.MetamaskError));
       contract.baseUploadScore.restore();
