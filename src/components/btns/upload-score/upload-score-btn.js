@@ -11,11 +11,12 @@ class UploadScoreBtn extends React.Component {
 
   handleClick(e) {
     e.preventDefault();
-    const { signature, score } = this.props;
+    const { signature, recoveredAddress, score } = this.props;
     this.props.dispatch(uploadScore(
       signature.v,
       signature.r,
       signature.s,
+      recoveredAddress,
       score,
     ));
   }
@@ -40,6 +41,7 @@ UploadScoreBtn.propTypes = {
     signature: PropTypes.string.isRequired,
   }).isRequired,
   score: PropTypes.number.isRequired,
+  recoveredAddress: PropTypes.string.isRequired,
 };
 
 export default connect(({ game, dispatch }) => (merge(game, { dispatch })))(UploadScoreBtn);
