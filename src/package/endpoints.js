@@ -9,9 +9,7 @@ export const gameState = async () => (
 );
 
 export const move = async (direction) => {
-  await connectedToEVM();
-  const [user] = await web3.eth.getAccounts();
-  const userMove = { user, direction };
+  const userMove = { direction };
   const nextGameState = await api.move(userMove);
   return nextGameState;
 };
@@ -22,8 +20,7 @@ export const newGame = async () => {
   const challenge = await api.nonce();
   const signature = await signNonce(user, challenge.nonce);
   const price = await arcadeContract.getPrice();
-  const payment = { user, price, nonce: challenge.nonce };
-  const txreceipt = await arcadeContract.pay(payment);
+  const txreceipt = await arcadeContract.pay(challenge, user, price);
   const receipt = { signature, txhash: txreceipt.transactionHash };
   const nextGameState = await api.paymentConfirmation(receipt);
   const arcadeState = await arcadeContract.getArcadeState();
@@ -36,12 +33,12 @@ export const getArcadeState = async () => {
   return arcadeState;
 };
 
-export const uploadScore = async (v, r, s, score) => {
+export const uploadScore = async (v, r, s, recoveredAddress, score) => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
   const signedScore = {
-    v, r, s, user, score,
+    v, r, s, recoveredAddress, score,
   };
-  const arcadeState = await arcadeContract.uploadScore(signedScore);
+  const arcadeState = await arcadeContract.uploadScore(signedScore, user);
   return arcadeState;
 };

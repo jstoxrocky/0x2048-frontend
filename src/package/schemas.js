@@ -5,6 +5,7 @@ export const nonce = {
   properties: {
     nonce: { type: 'string', required: true },
   },
+  additionalProperties: false,
 };
 
 // api.move input
@@ -12,9 +13,9 @@ export const move = {
   id: '/move',
   type: 'object',
   properties: {
-    user: { type: 'string', required: true },
     direction: { type: 'number', required: true },
   },
+  additionalProperties: false,
 };
 
 // arcadeContract.uploadScore input
@@ -26,21 +27,10 @@ export const signedScore = {
     r: { type: 'string', required: true },
     s: { type: 'string', required: true },
     score: { type: 'number', required: true },
-    user: { type: 'string', required: true },
+    recoveredAddress: { type: 'string', required: true },
   },
   required: true,
-};
-
-// arcadeContract.pay input
-export const payment = {
-  id: '/payment',
-  type: 'object',
-  properties: {
-    user: { type: 'string', required: true },
-    price: { type: 'number', required: true },
-    nonce: { type: 'string', required: true },
-  },
-  required: true,
+  additionalProperties: false,
 };
 
 // api.paymentConfirmation input
@@ -52,6 +42,7 @@ export const receipt = {
     signature: { type: 'string', required: true },
   },
   required: true,
+  additionalProperties: false,
 };
 
 // arcadeContract.pay output
@@ -62,6 +53,7 @@ export const transactionReceipt = {
     transactionHash: { type: 'string', required: true },
   },
   required: true,
+  additionalProperties: true,
 };
 
 // arcadeContract.uploadScore output
@@ -74,6 +66,7 @@ export const arcadeState = {
     highscore: { type: 'number', required: true },
   },
   required: true,
+  additionalProperties: false,
 };
 
 export const fullSignature = {
@@ -88,6 +81,7 @@ export const fullSignature = {
     signature: { type: 'string', required: true },
   },
   required: true,
+  additionalProperties: false,
 };
 
 // api.move, api.paymentConfirmation output
@@ -113,5 +107,7 @@ export const signedGamestate = {
       maxItems: 4,
     },
     signature: { $ref: '/fullSignature' },
+    recovered_address: { type: 'string', required: true },
   },
+  additionalProperties: false,
 };
