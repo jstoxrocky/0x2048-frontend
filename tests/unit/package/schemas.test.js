@@ -335,7 +335,7 @@ describe('schemas', async () => {
           s: '0x',
           signature: '0x',
         },
-        recovered_address: '0x',
+        recoveredAddress: '0x',
       };
       const validator = new jsonschema.Validator();
       validator.addSchema(schemas.fullSignature, '/fullSignature');
@@ -348,7 +348,7 @@ describe('schemas', async () => {
       ['board', 0],
       ['gameover', 0],
       ['signature', 0],
-      ['recovered_address', 0],
+      ['recoveredAddress', 0],
     ].forEach(([key, value]) => {
       it(`should fail to validate with wrong datatype: ${key}`, async () => {
         const instance = {
@@ -363,7 +363,7 @@ describe('schemas', async () => {
             s: '0x',
             signature: '0x',
           },
-          recovered_address: '0x',
+          recoveredAddress: '0x',
         };
 
         instance[key] = value;
@@ -379,7 +379,7 @@ describe('schemas', async () => {
       ['board'],
       ['gameover'],
       ['signature'],
-      ['recovered_address'],
+      ['recoveredAddress'],
     ].forEach(([key]) => {
       it(`should fail to validate with missing data: ${key}`, async () => {
         const instance = {
@@ -394,7 +394,7 @@ describe('schemas', async () => {
             s: '0x',
             signature: '0x',
           },
-          recovered_address: '0x',
+          recoveredAddress: '0x',
         };
         delete instance[key];
         const validator = new jsonschema.Validator();
