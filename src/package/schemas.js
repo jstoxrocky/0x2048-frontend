@@ -12,7 +12,6 @@ export const move = {
   id: '/move',
   type: 'object',
   properties: {
-    user: { type: 'string', required: true },
     direction: { type: 'number', required: true },
   },
 };

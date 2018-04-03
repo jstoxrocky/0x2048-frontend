@@ -31,7 +31,6 @@ describe('schemas', async () => {
   describe('move', () => {
     it('should validate', async () => {
       const instance = {
-        user: '0x0',
         direction: 1,
       };
       const validator = new jsonschema.Validator();
@@ -40,12 +39,10 @@ describe('schemas', async () => {
     });
 
     [
-      ['user', 0],
       ['direction', ''],
     ].forEach(([key, value]) => {
       it(`should fail to validate with wrong datatype: ${key}`, async () => {
         const instance = {
-          user: '0x0',
           direction: 1,
         };
         instance[key] = value;
@@ -56,12 +53,10 @@ describe('schemas', async () => {
     });
 
     [
-      ['user'],
       ['direction'],
     ].forEach(([key]) => {
       it(`should fail to validate with missing data: ${key}`, async () => {
         const instance = {
-          user: '0x0',
           direction: 1,
         };
         delete instance[key];
