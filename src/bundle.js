@@ -102937,16 +102937,12 @@ var Success = function (_Visible3) {
 
 var Loading = exports.Loading = new Info('Loading...');
 var GameOver = exports.GameOver = new Danger('Gameover!');
-var GetNewGameRejected = exports.GetNewGameRejected = new Danger('Fetching the most recent IOU was rejected.');
-var GetGameStateRejected = exports.GetGameStateRejected = new Danger('Fetching the game-state was rejected.');
-var MoveRejected = exports.MoveRejected = new Danger('Your move was rejected.');
-var PaymentRejected = exports.PaymentRejected = new Danger('Your payment was rejected.');
-var GetArcadeStateRejected = exports.GetArcadeStateRejected = new Danger('Fetching the arcade-state was rejected.');
-var UploadRejected = exports.UploadRejected = new Danger('Your upload was rejected.');
-var AdjustPriceRejected = exports.AdjustPriceRejected = new Danger('Your price adjustment was rejected.');
-var PaySuccess = exports.PaySuccess = new Success('Your payment was successful.');
-var UploadScoreSuccess = exports.UploadScoreSuccess = new Success('Your score upload was successful.');
-var AdjustPriceSuccess = exports.AdjustPriceSuccess = new Success('Your price adjustment was successful.');
+var GetNewGameRejected = exports.GetNewGameRejected = new Danger('Error starting new game.');
+var GetGameStateRejected = exports.GetGameStateRejected = new Danger('Error fetching game-state.');
+var MoveRejected = exports.MoveRejected = new Danger('Error submitting move.');
+var GetArcadeStateRejected = exports.GetArcadeStateRejected = new Danger('Error fetching arcade-state.');
+var UploadRejected = exports.UploadRejected = new Danger('Error uploading score.');
+var UploadScoreSuccess = exports.UploadScoreSuccess = new Success('Success uploading score.');
 
 /***/ }),
 /* 509 */
