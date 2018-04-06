@@ -2,19 +2,20 @@
   "name": "eth0x2048",
   "version": "1.0.0",
   "description": "",
-  "main": "src/entry.js",
+  "main": "src/entry",
   "scripts": {
     "webpack": "webpack --watch",
     "dev": "webpack-dev-server",
     "test": "jest",
     "unit": "jest tests/unit",
     "integration": "jest tests/integration",
-    "lint": "eslint ."
+    "lint": "tslint './**/*.ts?(x)' --exclude './node_modules/**/*.ts?(x)'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react": "^16.3.5",
     "axios": "^0.17.1",
     "babel": "^6.23.0",
     "babel-core": "^6.26.0",
@@ -41,6 +42,8 @@
     "webpack-dev-server": "^2.9.4"
   },
   "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "awesome-typescript-loader": "^4.0.1",
     "babel-eslint": "^8.2.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -54,7 +57,12 @@
     "jest": "^22.1.4",
     "lerna": "^2.9.0",
     "redux-mock-store": "^1.5.1",
-    "sinon": "^4.2.2"
+    "sinon": "^4.2.2",
+    "source-map-loader": "^0.2.3",
+    "ts-jest": "^22.4.2",
+    "tslint": "^5.9.1",
+    "tslint-react": "^3.5.1",
+    "typescript": "^2.8.1"
   },
   "babel": {
     "presets": [
@@ -86,6 +94,21 @@
   "jest": {
     "moduleNameMapper": {
       "\\.(css|less)$": "identity-obj-proxy"
-    }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.ts?(x)",
+      "**/?(*.)(spec|test).ts?(x)"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
