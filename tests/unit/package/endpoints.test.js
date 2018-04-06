@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import Web3 from 'web3/packages/web3';
+import Web3 from 'web3';
 import ganache from 'ganache-core';
 import jsonschema from 'jsonschema';
 import * as api from '../../../src/package/api';
