@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "outDir": "./built",
+        "allowJs": true,
+        "target": "es6",
+        "noEmitOnError": true,
+        "noImplicitAny": false,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "Node",
+        "jsx": "react",
+        "noUnusedLocals": true,
+    },
+    "include": [
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        "./tests/**/*.ts",
+        "./tests/**/*.tsx"
+    ]
+}

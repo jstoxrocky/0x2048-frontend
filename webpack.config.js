@@ -1,12 +1,15 @@
 var path = require('path');
 
 module.exports = {
-  entry: './src/entry.js',
+  entry: './src/entry.tsx',
   output: {
     filename: './src/bundle.js',
   },
   module: {
     loaders: [{
+      test: /\.tsx?$/,
+      loader: "awesome-typescript-loader"
+    }, {
       test: [/\.jsx?$/],
       exclude: /(node_modules)/,
       loader: 'babel-loader',
@@ -24,6 +27,6 @@ module.exports = {
   },
   devtool: 'source-map',
   resolve: {
-    extensions: ['.js', '.jsx', '*']
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '*']
   },
 };
