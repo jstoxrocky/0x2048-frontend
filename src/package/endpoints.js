@@ -18,9 +18,9 @@ export const newGame = async () => {
   await connectedToEVM();
   const [user] = await web3.eth.getAccounts();
   const challenge = await api.nonce();
-  const signature = await signNonce(user, challenge.nonce);
   const price = await arcadeContract.getPrice();
   const txreceipt = await arcadeContract.pay(challenge, user, price);
+  const signature = await signNonce(user, challenge.nonce);
   const receipt = { signature, txhash: txreceipt.transactionHash };
   const nextGameState = await api.paymentConfirmation(receipt);
   const arcadeState = await arcadeContract.getArcadeState();
