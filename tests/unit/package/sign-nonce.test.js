@@ -1,5 +1,5 @@
 import ganache from 'ganache-core';
-import Web3 from 'web3/packages/web3';
+import Web3 from 'web3';
 import * as ethAbi from 'ethereumjs-abi';
 import * as utils from 'ethereumjs-util';
 import * as _ from 'lodash';

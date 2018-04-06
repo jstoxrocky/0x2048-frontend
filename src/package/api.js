@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { handleServerErrors } from './decorators';
 
-const baseURL = 'http://127.0.0.1:5000/api/v1'; // 'http://webserver0x2048-staging.us-west-2.elasticbeanstalk.com/price';
+const baseURL = 'https://www.0x2048-int.net/api/v1'; // 'http://127.0.0.1:5000/api/v1'; // 'https://www.0x2048-int.net/api/v1';
 const withCredentials = true;
 const api = axios.create({ withCredentials, baseURL });
 

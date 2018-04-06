@@ -1,4 +1,4 @@
-import Web3 from 'web3/packages/web3';
+import Web3 from 'web3';
 import * as web3Provisioned from '../../../src/package/web3-provisioned';
 import * as deployedContract from '../../../src/package/deployed-contracts';
 import addressJson from '../../../integration-json-fixtures/constants/address.json';
